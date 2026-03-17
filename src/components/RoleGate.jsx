@@ -32,9 +32,32 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
           Class of 2026
         </span>
         
-        <h1 className="font-serif text-8xl md:text-[10rem] text-ink leading-none mb-8 -tracking-tight">
-          Lastpage
-        </h1>
+        <motion.h1 
+          className="font-serif text-8xl md:text-[10rem] text-ink leading-[1.1] mb-8 -tracking-tight flex justify-center overflow-hidden pb-8"
+          initial="hidden"
+          animate="visible"
+        >
+          {"Lastpage".split("").map((char, index) => (
+            <motion.span
+              key={index}
+              variants={{
+                hidden: { y: "100%", opacity: 0 },
+                visible: { 
+                  y: 0, 
+                  opacity: 1,
+                  transition: { 
+                    duration: 1.2, 
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: 0.2 + (index * 0.08)
+                  } 
+                }
+              }}
+              className="inline-block"
+            >
+              {char}
+            </motion.span>
+          ))}
+        </motion.h1>
         
         <p className="font-serif italic text-xl md:text-2xl text-ink-muted max-w-lg mx-auto leading-relaxed mb-16">
           "Leave your mark before the chapter ends."
