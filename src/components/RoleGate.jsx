@@ -13,14 +13,22 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
     fetchCount();
   }, []);
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-background paper-grain">
+    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-background overflow-hidden">
+      {/* Background Image Layer */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat blur-[3px] scale-105 opacity-50"
+        style={{ backgroundImage: "url('/img/IMG_1696.jpg')" }}
+      />
+      {/* Texture Overlay */}
+      <div className="absolute inset-0 z-0 bg-white/40 backdrop-blur-[1px] paper-grain" />
+
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-4xl"
+        className="max-w-4xl relative z-10"
       >
-        <span className="text-xs uppercase tracking-[0.4em] text-accent font-semibold mb-6 block">
+        <span className="text-xs uppercase tracking-[0.4em] text-white/70 font-semibold mb-6 block">
           Class of 2026
         </span>
         
@@ -34,13 +42,13 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
           <motion.button
-            whileHover={{ y: -5, scale: 1.02 }}
+            whileHover={{ y: -2, scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.95)" }}
             whileTap={{ scale: 0.98 }}
             onClick={onSelectFriend}
-            className="w-full md:w-64 bg-white p-12 shadow-sm border border-neutral-200 paper-grain group transition-all hover:border-accent hover:shadow-xl"
+            className="w-fit bg-white/70 backdrop-blur-2xl px-16 py-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.08)] border border-white/40 group transition-all hover:shadow-[0_8px_48px_0_rgba(0,0,0,0.12)] rounded-full flex flex-col items-center justify-center"
           >
-            <span className="font-serif text-3xl text-ink block mb-2 group-hover:text-accent transition-colors">I'm a friend</span>
-            <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-sans">Enter the book</span>
+            <span className="font-sans text-xl font-medium text-ink/90 tracking-tight group-hover:text-ink transition-colors">I'm a friend</span>
+            <span className="text-[9px] uppercase tracking-[0.2em] text-neutral-500 font-bold opacity-50">Enter the book</span>
           </motion.button>
         </div>
 
@@ -57,7 +65,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
 
         <button
           onClick={onSelectAdmin}
-          className="mt-24 text-[10px] uppercase tracking-[0.3em] text-neutral-400 hover:text-ink transition-colors font-sans py-4"
+          className="mt-24 text-[10px] uppercase tracking-[0.3em] text-white/60 hover:text-white transition-colors font-sans py-4"
         >
           Admin Access
         </button>

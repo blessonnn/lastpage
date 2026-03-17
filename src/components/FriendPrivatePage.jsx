@@ -56,7 +56,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
       setIsSubmitted(true);
       setIsSuccessVisible(true);
     } catch (error) {
-      alert("Something went wrong saving your entry. Please try again.");
+      alert(`Submission Error: ${error.message}\n\nCheck if you have enabled Firestore and Storage in your Firebase Console and set rules to 'Test Mode'.`);
       console.error(error);
     } finally {
       setIsSubmitting(false);

@@ -22,20 +22,12 @@ function App() {
   const [adminSession, setAdminSessionState] = useState(getAdminSession());
 
   useEffect(() => {
-    // Determine initial view
-    if (adminSession?.isAdmin) {
-      setView('admin_dashboard');
-    } else if (friendSession?.name) {
-      setView('friend_page');
-    }
+    // Keep sessions in state but don't auto-redirect away from the landing page
+    // This ensures users always see the front page first, even if they have a session.
   }, []);
 
   const handleSelectFriend = () => {
-    if (friendSession?.name) {
-      setView('friend_page');
-    } else {
-      setView('friend_entry');
-    }
+    setView('friend_entry');
   };
 
   const handleEnterName = (name) => {
