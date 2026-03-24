@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, LogOut, Grid, List, Trash2, Edit2, X, Check, Image as ImgIcon } from 'lucide-react';
+import { Search, LogOut, Grid, List, Trash2, X, Check, Image as ImgIcon } from 'lucide-react';
 import { getAllEntries, deleteEntry, updateEntry } from '../utils/firebaseService';
 import { clearAdminSession } from '../utils/storage';
 
@@ -11,8 +11,6 @@ const AdminDashboard = ({ onLogout }) => {
   const [filter, setFilter] = useState('all');
   const [view, setView] = useState('grid');
   const [selectedEntry, setSelectedEntry] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState({});
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
@@ -38,13 +36,7 @@ const AdminDashboard = ({ onLogout }) => {
     }
   };
 
-  const handleSave = async () => {
-    await updateEntry(selectedEntry.id, editData);
-    refreshData();
-    setSelectedEntry({ ...selectedEntry, ...editData });
-    setIsEditing(false);
-    showToast("Saved changes");
-  };
+
 
   const filteredEntries = entries
     .filter(e => e.name.toLowerCase().includes(search.toLowerCase()))
@@ -169,12 +161,6 @@ const AdminDashboard = ({ onLogout }) => {
                   </span>
                   <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button 
-                      onClick={(e) => { e.stopPropagation(); setSelectedEntry(entry); setIsEditing(true); setEditData(entry); }}
-                      className="text-neutral-400 hover:text-accent transition-colors"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button 
                       onClick={(e) => { e.stopPropagation(); handleDelete(entry.id, entry.name); }}
                       className="text-neutral-400 hover:text-red-500 transition-colors"
                     >
@@ -212,12 +198,6 @@ const AdminDashboard = ({ onLogout }) => {
                     </td>
                     <td className="px-6 py-6 text-right space-x-6">
                       <button 
-                        onClick={(e) => { e.stopPropagation(); setSelectedEntry(entry); setIsEditing(true); setEditData(entry); }}
-                        className="text-neutral-300 hover:text-accent transition-colors"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button 
                         onClick={(e) => { e.stopPropagation(); handleDelete(entry.id, entry.name); }}
                         className="text-neutral-300 hover:text-red-500 transition-colors"
                       >
@@ -249,10 +229,10 @@ const AdminDashboard = ({ onLogout }) => {
             >
               <div className="flex justify-between items-center px-12 py-8 border-b border-neutral-100">
                 <span className="text-[10px] uppercase tracking-[0.4em] text-accent font-bold">
-                  {isEditing ? 'Editing Entry' : 'Entry Detail'}
+                  Entry Detail
                 </span>
                 <button 
-                  onClick={() => { setSelectedEntry(null); setIsEditing(false); }}
+                  onClick={() => { setSelectedEntry(null); }}
                   className="text-neutral-300 hover:text-ink transition-colors"
                 >
                   <X className="w-6 h-6" />
@@ -260,42 +240,6 @@ const AdminDashboard = ({ onLogout }) => {
               </div>
 
               <div className="overflow-y-auto p-12 custom-scrollbar">
-                {isEditing ? (
-                  <div className="space-y-12">
-                    <div className="space-y-4">
-                      <label className="text-[10px] uppercase tracking-widest text-neutral-400">Friend's Name</label>
-                      <input 
-                        type="text"
-                        value={editData.name}
-                        onChange={(e) => setEditData({...editData, name: e.target.value})}
-                        className="w-full border-b border-neutral-200 py-2 font-serif text-3xl focus:outline-none focus:border-accent transition-colors"
-                      />
-                    </div>
-                    <div className="space-y-4">
-                      <label className="text-[10px] uppercase tracking-widest text-neutral-400">Message</label>
-                      <textarea 
-                        rows={8}
-                        value={editData.message}
-                        onChange={(e) => setEditData({...editData, message: e.target.value})}
-                        className="w-full border border-neutral-200 p-6 font-sans italic text-lg leading-relaxed focus:outline-none focus:border-accent transition-colors bg-neutral-50 rounded-lg"
-                      />
-                    </div>
-                    <div className="flex gap-4">
-                      <button 
-                        onClick={handleSave}
-                        className="flex-1 bg-ink text-white py-6 font-bold uppercase tracking-widest text-xs hover:bg-gold transition-colors flex items-center justify-center gap-2 shadow-xl"
-                      >
-                        <Check className="w-4 h-4" /> Save changes
-                      </button>
-                      <button 
-                        onClick={() => setIsEditing(false)}
-                        className="px-8 border border-neutral-200 font-bold uppercase tracking-widest text-xs hover:bg-neutral-50 transition-colors"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                     <div className="space-y-8">
                        <h2 className="font-serif text-6xl text-ink leading-tight">{selectedEntry.name}</h2>
@@ -308,12 +252,6 @@ const AdminDashboard = ({ onLogout }) => {
                        </div>
                        
                        <div className="flex gap-6 pt-12">
-                         <button 
-                          onClick={() => { setIsEditing(true); setEditData(selectedEntry); }}
-                          className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-4 bg-background border border-neutral-100 hover:border-accent hover:text-accent transition-all"
-                         >
-                            <Edit2 className="w-3 h-3" /> Edit Mode
-                         </button>
                          <button 
                           onClick={() => handleDelete(selectedEntry.id, selectedEntry.name)}
                           className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-4 text-neutral-300 hover:text-red-500 hover:border-red-500 transition-all border border-transparent"
@@ -335,7 +273,6 @@ const AdminDashboard = ({ onLogout }) => {
                       )}
                     </div>
                   </div>
-                )}
               </div>
             </motion.div>
           </motion.div>

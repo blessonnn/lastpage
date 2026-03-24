@@ -74,36 +74,25 @@ export const getAllEntries = async () => {
  * Submit a new entry to Firestore
  */
 export const submitEntry = async (entryData) => {
-  console.log("Starting submission for:", entryData.name);
-  
-  // Timeout wrapper
-  const timeout = (ms) => new Promise((_, reject) => 
-    setTimeout(() => reject(new Error("Request timed out. Please check your internet and Firebase Rules.")), ms)
-  );
-
-  const performSubmission = async () => {
+  try {
     let photoUrl = entryData.photo;
 
     // 1. Handle Photo Upload if exists
     if (entryData.photo && entryData.photo.startsWith('data:image')) {
-      console.log("Compressing image...");
-      const compressedBlob = await compressImage(entryData.photo, 800, 0.6); // Shrink more for speed
-      console.log("Uploading to Storage...");
+      // Compress aggressively for speed (600px is perfect for mobile memories)
+      const compressedBlob = await compressImage(entryData.photo, 600, 0.5); 
       const storageRef = ref(storage, `photos/${Date.now()}_${entryData.name.replace(/\s+/g, '_')}.jpg`);
       await uploadBytes(storageRef, compressedBlob);
       photoUrl = await getDownloadURL(storageRef);
-      console.log("Image uploaded:", photoUrl);
     }
 
     // 2. Save to Firestore
-    console.log("Saving to Firestore...");
     const docRef = await addDoc(collection(db, ENTRIES_COLLECTION), {
       name: entryData.name,
       message: entryData.message,
       photo: photoUrl || null,
       submittedAt: serverTimestamp()
     });
-    console.log("Document saved:", docRef.id);
 
     return { 
       id: docRef.id, 
@@ -111,11 +100,6 @@ export const submitEntry = async (entryData) => {
       photo: photoUrl,
       submittedAt: new Date().toISOString() 
     };
-  };
-
-  // Run with a 15-second cutoff
-  try {
-    return await Promise.race([performSubmission(), timeout(15000)]);
   } catch (error) {
     console.error("Submission failed:", error);
     throw error;
