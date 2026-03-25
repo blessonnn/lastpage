@@ -66,17 +66,17 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             transition: { staggerChildren: 0.2, delayChildren: 0.1 }
           }
         }}
-        className="max-w-4xl relative z-10 w-full md:w-auto"
+        className="max-w-4xl relative z-10 w-[95%] sm:w-full md:w-auto mx-auto"
       >
         {/* Barely visible Translucent Rectangle wrapping the core content */}
-        <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 md:p-16 shadow-2xl border border-white/10 w-full max-w-2xl mx-auto flex flex-col items-center">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-16 shadow-2xl border border-white/10 w-full max-w-2xl mx-auto flex flex-col items-center">
           
           <motion.span 
             variants={{
               hidden: { y: 30, opacity: 0 },
               visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
             }}
-            className="text-xs uppercase tracking-[0.4em] text-white/80 font-semibold mb-6 block w-full text-center"
+            className="text-[10px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/80 font-semibold mb-6 block w-full text-center"
           >
             Class of 2026
           </motion.span>
@@ -103,7 +103,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                 }}
                 className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
               />
-              <h1 className="relative z-10 font-serif text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight">
+              <h1 className="relative z-10 font-serif text-5xl sm:text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight">
                 Lastpage
               </h1>
             </div>
@@ -114,7 +114,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
               hidden: { y: 30, opacity: 0 },
               visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
             }}
-            className="font-serif italic text-lg md:text-xl text-white/90 max-w-lg mx-auto leading-relaxed mb-12 text-center"
+            className="font-serif italic text-base sm:text-lg md:text-xl text-white/90 max-w-lg mx-auto leading-relaxed mb-8 sm:mb-12 px-4 sm:px-0 text-center"
           >
             "Leave your mark before the chapter ends."
           </motion.p>
@@ -124,16 +124,16 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
               hidden: { y: 30, opacity: 0 },
               visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
             }}
-            className="flex flex-col md:flex-row gap-8 justify-center items-center w-full"
+            className="flex flex-col md:flex-row gap-4 sm:gap-8 justify-center items-center w-full"
           >
             <motion.button
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onSelectFriend}
-              className="w-fit bg-transparent px-8 py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center"
+              className="w-full sm:w-fit bg-transparent px-6 sm:px-8 py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center"
             >
-              <span className="font-sans text-lg font-medium text-white tracking-tight transition-colors duration-100">I'm a friend</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white/90 font-semibold mt-1 transition-colors duration-100">Enter the book</span>
+              <span className="font-sans text-base sm:text-lg font-medium text-white tracking-tight transition-colors duration-100">I'm a friend</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white/90 font-semibold mt-1 transition-colors duration-100">Enter the book</span>
             </motion.button>
           </motion.div>
 
@@ -143,7 +143,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                 hidden: { y: 30, opacity: 0 },
                 visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
               }}
-              className="mt-10 text-sm text-white/70 font-sans tracking-wide text-center"
+              className="mt-8 sm:mt-10 text-xs sm:text-sm text-white/70 font-sans tracking-wide text-center"
             >
               {count} {count === 1 ? 'friend' : 'friends'} have signed the book
             </motion.div>
@@ -155,7 +155,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
               visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
             }}
             onClick={onSelectAdmin}
-            className="mt-16 text-[10px] uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors font-sans py-2"
+            className="mt-12 sm:mt-16 text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors font-sans py-2"
           >
             Admin Access
           </motion.button>
