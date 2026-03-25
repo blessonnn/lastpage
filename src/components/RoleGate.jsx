@@ -39,35 +39,46 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { 
+            opacity: 1,
+            transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+          }
+        }}
         className="max-w-4xl relative z-10 w-full md:w-auto"
       >
-        {/* White Translucent Rectangle wrapping the core content */}
-        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-16 shadow-2xl border border-white/20 w-full max-w-2xl mx-auto flex flex-col items-center">
-          <span className="text-xs uppercase tracking-[0.4em] text-black font-semibold mb-6 block w-full text-center">
+        {/* Barely visible Translucent Rectangle wrapping the core content */}
+        <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 md:p-16 shadow-2xl border border-white/10 w-full max-w-2xl mx-auto flex flex-col items-center">
+          
+          <motion.span 
+            variants={{
+              hidden: { y: 30, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+            }}
+            className="text-xs uppercase tracking-[0.4em] text-white/80 font-semibold mb-6 block w-full text-center"
+          >
             Class of 2026
-          </span>
+          </motion.span>
           
           <motion.h1 
-            className="font-serif text-6xl md:text-8xl text-black leading-[1.1] mb-6 -tracking-tight flex justify-center overflow-hidden pb-4"
-            initial="hidden"
-            animate="visible"
+            className="font-serif text-6xl md:text-8xl text-white leading-[1.1] mb-6 -tracking-tight flex justify-center overflow-hidden pb-4"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.08 } }
+            }}
           >
             {"Lastpage".split("").map((char, index) => (
               <motion.span
                 key={index}
                 variants={{
-                  hidden: { y: "100%", opacity: 0 },
+                  hidden: { y: "150%", opacity: 0 },
                   visible: { 
                     y: 0, 
                     opacity: 1,
-                    transition: { 
-                      duration: 1.2, 
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: 0.2 + (index * 0.08)
-                    } 
+                    transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] } 
                   }
                 }}
                 className="inline-block"
@@ -77,39 +88,56 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             ))}
           </motion.h1>
           
-          <p className="font-serif italic text-lg md:text-xl text-black max-w-lg mx-auto leading-relaxed mb-12 text-center">
+          <motion.p 
+            variants={{
+              hidden: { y: 30, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+            }}
+            className="font-serif italic text-lg md:text-xl text-white/90 max-w-lg mx-auto leading-relaxed mb-12 text-center"
+          >
             "Leave your mark before the chapter ends."
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col md:flex-row gap-8 justify-center items-center w-full">
+          <motion.div 
+            variants={{
+              hidden: { y: 30, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+            }}
+            className="flex flex-col md:flex-row gap-8 justify-center items-center w-full"
+          >
             <motion.button
-              whileHover={{ y: -2, scale: 1.02, backgroundColor: "rgba(0, 0, 0, 0.05)" }}
+              whileHover={{ y: -2, scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
               whileTap={{ scale: 0.98 }}
               onClick={onSelectFriend}
-              className="w-fit bg-transparent px-8 py-3 rounded-full border border-black group transition-all flex flex-col items-center justify-center"
+              className="w-fit bg-transparent px-8 py-3 rounded-full border border-white/50 group transition-all flex flex-col items-center justify-center"
             >
-              <span className="font-sans text-lg font-medium text-black tracking-tight transition-colors">I'm a friend</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-black/70 font-semibold mt-1">Enter the book</span>
+              <span className="font-sans text-lg font-medium text-white tracking-tight transition-colors">I'm a friend</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-semibold mt-1">Enter the book</span>
             </motion.button>
-          </div>
+          </motion.div>
 
           {count > 0 && (
             <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="mt-10 text-sm text-black font-sans tracking-wide text-center"
+              variants={{
+                hidden: { y: 30, opacity: 0 },
+                visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              }}
+              className="mt-10 text-sm text-white/70 font-sans tracking-wide text-center"
             >
               {count} {count === 1 ? 'friend' : 'friends'} have signed the book
             </motion.div>
           )}
 
-          <button
+          <motion.button
+            variants={{
+              hidden: { y: 30, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+            }}
             onClick={onSelectAdmin}
-            className="mt-16 text-[10px] uppercase tracking-[0.3em] text-black/40 hover:text-black transition-colors font-sans py-2"
+            className="mt-16 text-[10px] uppercase tracking-[0.3em] text-white/40 hover:text-white transition-colors font-sans py-2"
           >
             Admin Access
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     </section>
