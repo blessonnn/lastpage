@@ -81,30 +81,33 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             Class of 2026
           </motion.span>
           
-          <motion.h1 
-            className="font-serif text-6xl md:text-8xl text-white leading-[1.1] mb-6 -tracking-tight flex justify-center overflow-hidden pb-4"
+          <motion.div 
             variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.08 } }
+              hidden: { opacity: 0, y: 30 },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+              }
             }}
+            className="flex justify-center mb-8 pb-4 w-full"
           >
-            {"Lastpage".split("").map((char, index) => (
-              <motion.span
-                key={index}
+            <div className="relative inline-block px-6 py-2">
+              <motion.div
                 variants={{
-                  hidden: { y: "150%", opacity: 0 },
+                  hidden: { scaleX: 0 },
                   visible: { 
-                    y: 0, 
-                    opacity: 1,
-                    transition: { duration: 1.0, ease: [0.22, 1, 0.36, 1] } 
+                    scaleX: 1, 
+                    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 } 
                   }
                 }}
-                className="inline-block"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </motion.h1>
+                className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
+              />
+              <h1 className="relative z-10 font-serif text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight">
+                Lastpage
+              </h1>
+            </div>
+          </motion.div>
           
           <motion.p 
             variants={{
