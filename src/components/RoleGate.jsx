@@ -10,6 +10,11 @@ const frames = [
   "vismaya.png", "vivek.png", "ziya.png"
 ];
 
+const row1Frames = frames;
+const row2Frames = [...frames.slice(8), ...frames.slice(0, 8)];
+const row3Frames = [...frames.slice(16), ...frames.slice(0, 16)];
+const rows = [row1Frames, row2Frames, row3Frames];
+
 const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
   const [count, setCount] = useState(0);
 
@@ -20,22 +25,35 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
     };
     fetchCount();
   }, []);
+  
   return (
     <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-zinc-50 overflow-hidden">
-      {/* Background Image Layer: Collage of frames */}
-      <div className="absolute inset-0 z-0 opacity-100 overflow-hidden pointer-events-none">
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4 min-w-[120%] min-h-[120%] -translate-x-[10%] -translate-y-[10%] content-start">
-          {Array.from({ length: 4 }).flatMap(() => frames).map((frame, idx) => (
-            <div key={`${frame}-${idx}`} className="w-full aspect-[3/4] rounded-lg overflow-hidden shadow-sm">
-              <img 
-                src={`/frames/${frame}`} 
-                alt="Memory Frame" 
-                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
+      {/* Background Image Layer: Sliding Marquees */}
+      <div className="absolute inset-0 z-0 opacity-100 overflow-hidden pointer-events-none flex flex-col justify-center gap-2 sm:gap-3 md:gap-4">
+        {rows.map((rowArr, rowIndex) => (
+          <motion.div
+            key={rowIndex}
+            className="flex gap-2 sm:gap-3 md:gap-4 shrink-0"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ 
+              repeat: Infinity, 
+              ease: "linear", 
+              duration: 40 + (rowIndex * 15) // speeds: 40s, 55s, 70s
+            }}
+            style={{ width: "max-content" }}
+          >
+            {[...rowArr, ...rowArr].map((frame, idx) => (
+              <div key={`${frame}-${idx}-${rowIndex}`} className="w-20 sm:w-28 md:w-36 lg:w-44 xl:w-48 aspect-[3/4] rounded-lg overflow-hidden shadow-sm shrink-0">
+                <img 
+                  src={`/frames/${frame}`} 
+                  alt="Memory Frame" 
+                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </motion.div>
+        ))}
       </div>
 
       <motion.div
