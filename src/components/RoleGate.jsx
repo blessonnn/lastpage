@@ -124,13 +124,13 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             className="flex flex-col md:flex-row gap-8 justify-center items-center w-full"
           >
             <motion.button
-              whileHover={{ y: -2, scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+              whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onSelectFriend}
-              className="w-fit bg-transparent px-8 py-3 rounded-full border border-white/50 group transition-all flex flex-col items-center justify-center"
+              className="w-fit bg-transparent px-8 py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center"
             >
-              <span className="font-sans text-lg font-medium text-white tracking-tight transition-colors">I'm a friend</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-semibold mt-1">Enter the book</span>
+              <span className="font-sans text-lg font-medium text-white tracking-tight transition-colors duration-100">I'm a friend</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white/90 font-semibold mt-1 transition-colors duration-100">Enter the book</span>
             </motion.button>
           </motion.div>
 
