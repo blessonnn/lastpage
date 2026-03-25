@@ -21,9 +21,9 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
     fetchCount();
   }, []);
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-zinc-100 overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-zinc-50 overflow-hidden">
       {/* Background Image Layer: Collage of frames */}
-      <div className="absolute inset-0 z-0 opacity-40 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 z-0 opacity-100 overflow-hidden pointer-events-none">
         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4 min-w-[120%] min-h-[120%] -translate-x-[10%] -translate-y-[10%] content-start">
           {Array.from({ length: 4 }).flatMap(() => frames).map((frame, idx) => (
             <div key={`${frame}-${idx}`} className="w-full aspect-[3/4] rounded-lg overflow-hidden shadow-sm">
@@ -45,7 +45,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
         className="max-w-4xl relative z-10 w-full md:w-auto"
       >
         {/* White Translucent Rectangle wrapping the core content */}
-        <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 md:p-16 shadow-2xl border border-white/50 w-full max-w-2xl mx-auto flex flex-col items-center">
+        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-16 shadow-2xl border border-white/20 w-full max-w-2xl mx-auto flex flex-col items-center">
           <span className="text-xs uppercase tracking-[0.4em] text-black font-semibold mb-6 block w-full text-center">
             Class of 2026
           </span>
