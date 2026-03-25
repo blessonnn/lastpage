@@ -123,6 +123,12 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         >
           View your entry
         </button>
+        <button 
+          onClick={onSignOut}
+          className="mt-6 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors"
+        >
+          Go back to front page
+        </button>
       </motion.div>
     );
   }
@@ -142,14 +148,40 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           transition={{ delay: 0.1 }}
         >
           <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent mb-6 block">Your message</label>
-          <textarea
-            required
-            rows={10}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full notebook-paper border-none focus:ring-0 focus:outline-none text-2xl font-serif italic text-ink-muted resize-none shadow-sm p-8"
-            placeholder="Write anything. A memory, a wish, a joke..."
-          />
+          <div className="relative w-full rounded-[12px] bg-white shadow-sm overflow-hidden" style={{ minHeight: '300px' }}>
+            <textarea
+              required
+              rows={10}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onScroll={(e) => {
+                const overlay = document.getElementById('typewriter-overlay');
+                if (overlay) overlay.scrollTop = e.target.scrollTop;
+              }}
+              className="absolute inset-0 w-full h-full border-none focus:ring-0 focus:outline-none text-2xl font-serif italic leading-[1.6] text-transparent caret-ink resize-none p-8 z-10 bg-transparent"
+              spellCheck={false}
+            />
+            <div 
+              id="typewriter-overlay"
+              className="absolute inset-0 w-full h-full p-8 text-2xl font-serif italic leading-[1.6] text-ink-muted pointer-events-none whitespace-pre-wrap break-words overflow-hidden"
+              aria-hidden="true"
+            >
+              {message === '' ? (
+                <span className="text-neutral-300">Write anything. A memory, a wish, a joke...</span>
+              ) : (
+                message.split('').map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.1 }}
+                  >
+                    {char}
+                  </motion.span>
+                ))
+              )}
+            </div>
+          </div>
         </motion.section>
 
         {/* Section B: Photo */}

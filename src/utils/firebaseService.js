@@ -13,9 +13,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase";
 
 /**
- * Utility to compress image before upload
+ * Utility to compress image before upload (Returns Base64 Data URL)
  */
-const compressImage = async (dataUrl, maxWidth = 1200, quality = 0.7) => {
+const compressImage = async (dataUrl, maxWidth = 800, quality = 0.6) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -36,13 +36,9 @@ const compressImage = async (dataUrl, maxWidth = 1200, quality = 0.7) => {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error("Canvas to Blob conversion failed"));
-        }
-      }, 'image/jpeg', quality);
+      // Return highly compressed base64 string directly
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+      resolve(compressedDataUrl);
     };
   });
 };
@@ -75,29 +71,26 @@ export const getAllEntries = async () => {
  */
 export const submitEntry = async (entryData) => {
   try {
-    let photoUrl = entryData.photo;
+    let photoData = entryData.photo;
 
-    // 1. Handle Photo Upload if exists
+    // 1. Handle Photo Upload: Compress Base64 locally to fit in Firestore 1MB limit
     if (entryData.photo && entryData.photo.startsWith('data:image')) {
-      // Compress aggressively for speed (600px is perfect for mobile memories)
-      const compressedBlob = await compressImage(entryData.photo, 600, 0.5); 
-      const storageRef = ref(storage, `photos/${Date.now()}_${entryData.name.replace(/\s+/g, '_')}.jpg`);
-      await uploadBytes(storageRef, compressedBlob);
-      photoUrl = await getDownloadURL(storageRef);
+      // Compress heavily (max 800px) so it easily fits within Firestore doc limit (~50KB)
+      photoData = await compressImage(entryData.photo, 800, 0.6); 
     }
 
-    // 2. Save to Firestore
+    // 2. Save directly to Firestore (Bypassing Firebase Storage constraints)
     const docRef = await addDoc(collection(db, ENTRIES_COLLECTION), {
       name: entryData.name,
       message: entryData.message,
-      photo: photoUrl || null,
+      photo: photoData || null,
       submittedAt: serverTimestamp()
     });
 
     return { 
       id: docRef.id, 
       ...entryData, 
-      photo: photoUrl,
+      photo: photoData,
       submittedAt: new Date().toISOString() 
     };
   } catch (error) {
