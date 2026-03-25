@@ -26,27 +26,47 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-xl text-center"
       >
-        <h2 className="font-serif text-6xl text-ink mb-12">What's your name?</h2>
+        <h2 className="font-serif text-6xl text-ink mb-12 flex justify-center items-center">
+          <span>What's your&nbsp;</span>
+          <span className="overflow-hidden inline-flex">
+            <motion.span
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+            >
+              name?
+            </motion.span>
+          </span>
+        </h2>
         
         <form onSubmit={handleSubmit} className="space-y-12">
-          <div className="relative">
+          <div className="relative group">
             <input
               type="text"
               required
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-transparent border-b-2 border-neutral-200 py-6 text-center font-serif text-4xl focus:outline-none focus:border-accent transition-colors placeholder:text-neutral-100"
+              className="w-full bg-transparent py-6 text-center font-serif text-4xl focus:outline-none transition-colors placeholder:text-neutral-100 relative z-10"
               placeholder="First name"
             />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+              className="absolute bottom-0 left-0 w-full h-[2px] bg-neutral-200 origin-center pointer-events-none"
+            />
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-accent origin-center scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out pointer-events-none z-20" />
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             type="submit"
-            className="px-12 py-6 bg-accent text-white font-sans text-xs uppercase tracking-[0.3em] font-bold hover:bg-ink transition-colors shadow-xl"
+            className="px-12 py-6 bg-accent text-white font-sans text-xs uppercase tracking-[0.3em] font-bold hover:bg-ink transition-colors shadow-xl rounded-[12px]"
           >
             Enter the book
-          </button>
+          </motion.button>
         </form>
       </motion.div>
     </section>
