@@ -7,7 +7,7 @@ const frames = [
   "anooja.png", "aysha.png", "chemb.png", "echiii.png", "fidha.png", 
   "gagna.png", "gokool.png", "gopi.png", "hamda.png", "lamiya.png", 
   "leshman.png", "liyakath.png", "megha.png", "mishal.png", "muthu.png", 
-  "naseef.png", "naseem.png", "punni.png", "riya.png", "saja.png", 
+  "naseef.png", "naseem.png", "pacha.png", "punni.png", "riya.png", "saja.png", 
   "salman.png", "shamila.png", "siva.png", "suttu.png", "vasu.png", 
   "vismaya.png", "vivek.png", "ziya.png"
 ];
