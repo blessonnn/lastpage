@@ -5,7 +5,7 @@ import { X, ArrowRight } from 'lucide-react';
 const AdminLoginModal = ({ isOpen, onClose, onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
-  const ADMIN_PASSWORD = "lastpage2025";
+  const ADMIN_PASSWORD = "lastpage2026";
 
   const handleSubmit = (e) => {
     e.preventDefault();
