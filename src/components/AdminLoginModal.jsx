@@ -61,7 +61,7 @@ const AdminLoginModal = ({ isOpen, onClose, onLogin }) => {
 
               <button
                 type="submit"
-                className="w-full bg-ink text-background py-6 font-sans text-xs uppercase tracking-[0.2em] font-bold hover:bg-gold transition-colors flex items-center justify-center gap-3"
+                className="w-full bg-ink text-background py-6 font-sans text-xs uppercase tracking-[0.2em] font-bold hover:bg-gold transition-colors flex items-center justify-center gap-3 rounded-full"
               >
                 Enter <ArrowRight className="w-4 h-4" />
               </button>

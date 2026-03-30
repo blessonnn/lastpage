@@ -230,7 +230,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full ${isSubmitting ? 'bg-neutral-300' : 'bg-accent hover:bg-gold'} text-white py-8 font-sans text-sm uppercase tracking-[0.3em] font-bold transition-all shadow-2xl relative overflow-hidden group`}
+            className={`w-full ${isSubmitting ? 'bg-neutral-300' : 'bg-accent hover:bg-gold'} text-white py-8 font-sans text-sm uppercase tracking-[0.3em] font-bold transition-all shadow-2xl relative overflow-hidden group rounded-full`}
           >
             <span className="relative z-10">{isSubmitting ? 'Preserving memory...' : 'Leave your mark'}</span>
             {!isSubmitting && <div className="absolute inset-0 pointer-events-none bg-ink opacity-0 group-active:opacity-20 animate-ink-splash" />}

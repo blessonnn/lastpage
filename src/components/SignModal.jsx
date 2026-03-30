@@ -78,7 +78,7 @@ const SignModal = ({ isOpen, onClose, onSubmit }) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-ink text-background py-6 font-sans text-sm uppercase tracking-[0.2em] font-bold hover:bg-accent transition-colors relative overflow-hidden group"
+                className="w-full bg-ink text-background py-6 font-sans text-sm uppercase tracking-[0.2em] font-bold hover:bg-accent transition-colors relative overflow-hidden group rounded-full"
               >
                 <span className={isSubmitting ? 'opacity-0' : 'opacity-100'}>
                   Leave your mark
