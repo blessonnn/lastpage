@@ -27,7 +27,7 @@ function App() {
     // Show loading screen for a set duration to match the internal animation
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 6000); 
+    }, 7000); 
     return () => clearTimeout(timer);
   }, []);
 

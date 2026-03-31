@@ -33,7 +33,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                     key={i}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0, delay: 0.05 * i }}
+                    transition={{ duration: 0, delay: 0.2 + (0.05 * i) }}
                     className={`font-code ${isFinal ? 'text-6xl sm:text-8xl text-accent' : 'text-3xl sm:text-5xl text-white/40'} w-[1.1ch] text-center leading-none tracking-wider`}
                   >
                     {char}
@@ -45,7 +45,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                   <motion.div 
                     initial={{ left: 0 }}
                     animate={{ left: "100%" }}
-                    transition={{ duration: 0.2, ease: "steps(4, end)" }}
+                    transition={{ duration: 0.2, ease: "steps(4, end)", delay: 0.2 }}
                     className={`absolute top-0 bottom-0 ${isFinal ? 'w-2 bg-accent shadow-[0_0_20px_rgba(201,130,107,0.6)]' : 'w-1 bg-white/40'}`}
                   />
                 )}
@@ -64,7 +64,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                 initial={{ scaleY: 0, opacity: 0 }}
                 animate={{ scaleY: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.5, ease: "easeInOut", delay: 0.2 }}
                 className="w-full h-full flex flex-col items-center gap-2 origin-top pt-2"
               >
                 {[...Array(5)].map((_, i) => (
@@ -100,12 +100,12 @@ const LoadingScreen = ({ onComplete }) => {
       timer = setTimeout(() => {
         if (activeStage < years.length - 1) setStatus('line');
         else setStatus('done');
-      }, 500); // Snappy typing reveal
+      }, 800); // Perfectly balanced (0.2s delay + 0.2s typing + 0.4s pause)
     } else if (status === 'line') {
       timer = setTimeout(() => {
         setActiveStage(prev => prev + 1);
         setStatus('typing');
-      }, 700); // Fast line growth
+      }, 500); // 500ms for line growth
     }
     return () => clearTimeout(timer);
   }, [activeStage, status, years.length]);

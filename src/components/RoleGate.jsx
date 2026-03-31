@@ -135,13 +135,13 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             className="flex flex-col md:flex-row gap-3 sm:gap-8 justify-center items-center w-full"
           >
             <motion.button
-              initial={{ scaleX: 0, opacity: 0 }}
+              initial={{ scaleX: 0.6, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ y: -4, scale: 1.02, backgroundColor: "rgba(0,0,0,0.8)" }}
+              whileTap={{ y: 2, scale: 0.98 }}
               transition={{ 
-                scaleX: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.8 },
-                opacity: { duration: 0.5, delay: 0.8 }
+                scaleX: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 1.5 },
+                opacity: { duration: 0.6, delay: 1.5 }
               }}
               style={{ originX: 0.5 }}
               onClick={onSelectFriend}
