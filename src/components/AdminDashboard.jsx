@@ -64,21 +64,24 @@ const AdminDashboard = ({ onLogout }) => {
   return (
     <div className="min-h-screen bg-background font-sans text-ink pb-24">
       {/* Header Bar */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-neutral-200 px-8 py-4 flex justify-between items-center">
-        <h1 className="font-serif text-2xl flex gap-x-[0.3em]">
-          {["Lastpage", "—", "Admin"].map((word, i) => (
-            <span key={i} className="overflow-hidden inline-flex">
+      <header className="sticky top-0 z-50 bg-zinc-950 border-b border-white/10 px-8 py-4 flex justify-between items-center">
+        <h1 className="font-serif text-2xl flex items-center text-white">
+          <div className="flex">
+            {"Lastpage".split("").map((char, i) => (
               <motion.span
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 * i }}
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.05, delay: 0.2 + (0.05 * i) }}
               >
-                {word}
+                {char}
               </motion.span>
-            </span>
-          ))}
+            ))}
+          </div>
+          <span className="mx-3 opacity-40 font-light">—</span>
+          <span className="text-white/60 text-lg font-light tracking-wide">Admin</span>
         </h1>
-        <div className="text-xs uppercase tracking-widest font-bold text-accent">
+        <div className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent px-3 py-1 bg-accent/10 rounded-full border border-accent/20">
           {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
         </div>
         <motion.button 
