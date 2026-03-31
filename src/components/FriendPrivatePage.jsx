@@ -12,6 +12,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSpecialMessage, setShowSpecialMessage] = useState(false);
+  const [visibleChars, setVisibleChars] = useState(0);
   const fileInputRef = useRef(null);
 
   // Auto-save draft
@@ -23,6 +24,23 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
       return () => clearTimeout(timer);
     }
   }, [message, photo, isSubmitted]);
+
+  // Special Message Typewriter Progress
+  useEffect(() => {
+    if (showSpecialMessage) {
+      const totalLen = (session.name?.length || 0) + 1 + 250; // Approximating total length
+      const interval = setInterval(() => {
+        setVisibleChars(prev => {
+          if (prev < totalLen) return prev + 1;
+          clearInterval(interval);
+          return prev;
+        });
+      }, 30);
+      return () => clearInterval(interval);
+    } else {
+      setVisibleChars(0);
+    }
+  }, [showSpecialMessage, session.name]);
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -122,39 +140,59 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           />
 
           <div className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink leading-relaxed flex-grow">
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mb-8"
-            >
-              {session.name},
-            </motion.p>
+            <div className="mb-8">
+              {`${session.name},`.split("").map((char, i) => (
+                <span key={i} className={i < visibleChars ? "opacity-100" : "opacity-0"}>
+                  {char}
+                </span>
+              ))}
+              {visibleChars > 0 && visibleChars <= (session.name?.length || 0) + 1 && (
+                <motion.span
+                  className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
+                />
+              )}
+            </div>
             
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 2 }}
-              className="mb-12"
-            >
-              This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.
-            </motion.p>
+            <div className="mb-12">
+              {"This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.".split("").map((char, i) => {
+                const offset = (session.name?.length || 0) + 1;
+                return (
+                  <span key={i} className={i + offset < visibleChars ? "opacity-100" : "opacity-0"}>
+                    {char}
+                  </span>
+                );
+              })}
+              {visibleChars > (session.name?.length || 0) + 1 && visibleChars <= (session.name?.length || 0) + 1 + 250 && (
+                <motion.span
+                  className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
+                />
+              )}
+            </div>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 4 }}
-            className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink text-right mt-auto"
-          >
-            by Blesson
-          </motion.div>
+          <div className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink text-right mt-auto">
+            {"by Blesson".split("").map((char, i) => {
+              const offset = (session.name?.length || 0) + 1 + 250;
+              return (
+                <span key={i} className={i + offset < visibleChars ? "opacity-100" : "opacity-0"}>
+                  {char}
+                </span>
+              );
+            })}
+            {visibleChars > (session.name?.length || 0) + 1 + 250 && (
+              <motion.span
+                animate={visibleChars >= (session.name?.length || 0) + 260 ? { opacity: [0, 1, 0] } : { opacity: 1 }}
+                transition={{ repeat: Infinity, duration: 0.8 }}
+                className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
+              />
+            )}
+          </div>
         </motion.div>
 
         <motion.button 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 5 }}
+          animate={{ opacity: visibleChars >= (session.name?.length || 0) + 260 ? 1 : 0 }}
+          transition={{ duration: 0.5 }}
           onClick={() => setShowSpecialMessage(false)}
           className="mt-12 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors font-bold"
         >
