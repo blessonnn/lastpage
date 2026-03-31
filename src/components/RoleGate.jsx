@@ -4,7 +4,7 @@ import { getAllEntries } from '../utils/firebaseService';
 
 const frames = [
   "abhinav.png", "abhiraj.png", "adil.png", "akshara.png", "amal.png", 
-  "anooja.png", "aysha.png", "chemb.png", "echiii.png", "fidha.png", 
+  "anooja.png", "aysha.png", "bloppen.png", "chemb.png", "echiii.png", "fidha.png", 
   "gagna.png", "gokool.png", "gopi.png", "hamda.png", "lamiya.png", 
   "leshman.png", "liyakath.png", "megha.png", "mishal.png", "muthu.png", 
   "naseef.png", "naseem.png", "pacha.png", "punni.png", "riya.png", "saja.png", 
