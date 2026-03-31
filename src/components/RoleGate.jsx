@@ -97,29 +97,21 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             }}
             className="flex justify-center mb-6 sm:mb-8 pb-4 w-full"
           >
-            <div className="relative inline-block px-4 py-1 sm:px-6 sm:py-2">
-              <motion.div
-                variants={{
-                  hidden: { scaleX: 0 },
-                  visible: { 
-                    scaleX: 1, 
-                    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.2 } 
-                  }
-                }}
-                className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
-              />
-              <h1 className="relative z-10 font-serif text-4xl sm:text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight flex flex-wrap justify-center gap-x-[0.1em]">
-                {["Lastpage"].map((word, i) => (
-                  <span key={i} className="overflow-hidden inline-flex">
-                    <motion.span
-                      variants={{
-                        hidden: { x: "-100%" },
-                        visible: { x: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
-                      }}
-                    >
-                      {word}
-                    </motion.span>
-                  </span>
+            <div className="relative inline-block">
+              <h1 className="relative z-10 font-serif text-4xl sm:text-6xl md:text-8xl text-white leading-[1.1] -tracking-tight flex flex-wrap justify-center">
+                {"Lastpage".split("").map((char, i) => (
+                  <motion.span
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { 
+                        opacity: 1,
+                        transition: { duration: 0.05, delay: 1.2 + (0.08 * i) } 
+                      }
+                    }}
+                  >
+                    {char}
+                  </motion.span>
                 ))}
               </h1>
             </div>

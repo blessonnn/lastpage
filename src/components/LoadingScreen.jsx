@@ -21,10 +21,10 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
         <AnimatePresence>
           {shouldShowYear && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               className="flex items-center"
             >
               <div className="flex relative items-center">
@@ -33,7 +33,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                     key={i}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0, delay: 0.1 * i }}
+                    transition={{ duration: 0, delay: 0.05 * i }}
                     className={`font-code ${isFinal ? 'text-6xl sm:text-8xl text-accent' : 'text-3xl sm:text-5xl text-white/40'} w-[1.1ch] text-center leading-none tracking-wider`}
                   >
                     {char}
@@ -45,7 +45,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                   <motion.div 
                     initial={{ left: 0 }}
                     animate={{ left: "100%" }}
-                    transition={{ duration: 0.4, ease: "steps(4, end)" }}
+                    transition={{ duration: 0.2, ease: "steps(4, end)" }}
                     className={`absolute top-0 bottom-0 ${isFinal ? 'w-2 bg-accent shadow-[0_0_20px_rgba(201,130,107,0.6)]' : 'w-1 bg-white/40'}`}
                   />
                 )}
@@ -64,7 +64,7 @@ const YearItem = ({ year, index, activeStage, status, totalStages }) => {
                 initial={{ scaleY: 0, opacity: 0 }}
                 animate={{ scaleY: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="w-full h-full flex flex-col items-center gap-2 origin-top pt-2"
               >
                 {[...Array(5)].map((_, i) => (
@@ -100,12 +100,12 @@ const LoadingScreen = ({ onComplete }) => {
       timer = setTimeout(() => {
         if (activeStage < years.length - 1) setStatus('line');
         else setStatus('done');
-      }, 1200); 
+      }, 500); // Snappy typing reveal
     } else if (status === 'line') {
       timer = setTimeout(() => {
         setActiveStage(prev => prev + 1);
         setStatus('typing');
-      }, 1100); 
+      }, 700); // Fast line growth
     }
     return () => clearTimeout(timer);
   }, [activeStage, status, years.length]);
@@ -119,6 +119,7 @@ const LoadingScreen = ({ onComplete }) => {
     >
       {/* Centering Logic: Shifting the entire timeline so the activeStage is always in the vertical middle */}
       <motion.div 
+        initial={{ y: (( (years.length - 1) / 2 ) - 0) * STAGE_HEIGHT }}
         animate={{ y: (( (years.length - 1) / 2 ) - activeStage) * STAGE_HEIGHT }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
         className="flex flex-col items-center w-full"
