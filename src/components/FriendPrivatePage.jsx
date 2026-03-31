@@ -11,6 +11,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [submittedEntry, setSubmittedEntry] = useState(session.submittedEntry || null);
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSpecialMessage, setShowSpecialMessage] = useState(false);
   const fileInputRef = useRef(null);
 
   // Auto-save draft
@@ -117,18 +118,96 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         </div>
         <h2 className="font-serif text-5xl text-ink mb-4">Your page has been saved.</h2>
         <p className="font-serif italic text-xl text-neutral-400">"See you on the other side."</p>
-        <button 
-          onClick={() => setIsSuccessVisible(false)}
-          className="mt-16 text-[10px] uppercase tracking-widest text-accent font-bold hover:text-ink transition-colors"
+        <div className="flex flex-col gap-4 mt-16 w-full max-w-xs mx-auto">
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={() => setIsSuccessVisible(false)}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-accent font-bold transition-colors"
+          >
+            View your entry
+          </motion.button>
+          
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={onSignOut}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
+          >
+            Go back to front page
+          </motion.button>
+
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={() => setShowSpecialMessage(true)}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
+          >
+            From Me, To You
+          </motion.button>
+        </div>
+      </motion.div>
+    );
+  }
+
+  if (showSpecialMessage) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen bg-background flex flex-col justify-center items-center p-6 sm:p-12"
+      >
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="w-full max-w-2xl bg-white p-12 sm:p-20 shadow-2xl rounded-sm paper-grain relative min-h-[60vh] flex flex-col"
         >
-          View your entry
-        </button>
-        <button 
-          onClick={onSignOut}
-          className="mt-6 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors"
+          {/* Notebook line effect (subtle) */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+               style={{ backgroundImage: 'repeating-linear-gradient(#000 0 1px, transparent 1px 40px)', backgroundPosition: '0 40px' }} 
+          />
+
+          <div className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink leading-relaxed flex-grow">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mb-8"
+            >
+              {session.name},
+            </motion.p>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 2 }}
+              className="mb-12"
+            >
+              This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.
+            </motion.p>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 4 }}
+            className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink text-right mt-auto"
+          >
+            by Blesson
+          </motion.div>
+        </motion.div>
+
+        <motion.button 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 5 }}
+          onClick={() => setShowSpecialMessage(false)}
+          className="mt-12 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors font-bold"
         >
-          Go back to front page
-        </button>
+          Go back
+        </motion.button>
       </motion.div>
     );
   }
@@ -136,8 +215,29 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center py-24 px-6 relative">
       <header className="max-w-2xl w-full mb-24 text-center">
-        <h1 className="font-serif text-7xl md:text-8xl text-ink mb-4">{session.name}'s page</h1>
-        <p className="text-[10px] uppercase tracking-[0.4em] text-neutral-400">Only you can see this.</p>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative inline-block px-8 py-2 mb-4"
+        >
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
+            className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
+          />
+          <h1 className="relative z-10 font-serif text-7xl md:text-8xl text-ink leading-[1.1] -tracking-tight">
+            {session.name}'s page
+          </h1>
+        </motion.div>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-[10px] uppercase tracking-[0.4em] text-neutral-400"
+        >
+          Only you can see this.
+        </motion.p>
       </header>
 
       <form onSubmit={handleSubmit} className="w-full max-w-2xl space-y-24">

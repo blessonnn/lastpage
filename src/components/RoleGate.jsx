@@ -100,7 +100,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                   hidden: { scaleX: 0 },
                   visible: { 
                     scaleX: 1, 
-                    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.5 } 
+                    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.2 } 
                   }
                 }}
                 className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
