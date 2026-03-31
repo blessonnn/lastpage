@@ -226,8 +226,18 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
             className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
           />
-          <h1 className="relative z-10 font-serif text-7xl md:text-8xl text-ink leading-[1.1] -tracking-tight">
-            {session.name}'s page
+          <h1 className="relative z-10 font-serif text-7xl md:text-8xl text-ink leading-[1.1] -tracking-tight flex flex-wrap justify-center gap-x-[0.2em]">
+            {`${session.name}'s page`.split(' ').map((word, i) => (
+              <span key={i} className="overflow-hidden inline-flex">
+                <motion.span
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1.3 + (i * 0.15) }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            ))}
           </h1>
         </motion.div>
         <motion.p 
@@ -247,7 +257,19 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent mb-6 block">Your message</label>
+          <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent mb-6 block flex flex-wrap gap-x-[0.3em]">
+            {["Your", "message"].map((word, i) => (
+              <span key={i} className="overflow-hidden inline-flex">
+                <motion.span
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.5 + (i * 0.1) }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            ))}
+          </label>
           <div className="relative w-full rounded-[12px] bg-white shadow-sm overflow-hidden" style={{ minHeight: '300px' }}>
             <textarea
               required
@@ -290,7 +312,19 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent mb-6 block">Add a photo (optional)</label>
+          <label className="text-[10px] uppercase tracking-[0.3em] font-bold text-accent mb-6 block flex flex-wrap gap-x-[0.3em]">
+            {["Add", "a", "photo", "(optional)"].map((word, i) => (
+              <span key={i} className="overflow-hidden inline-flex">
+                <motion.span
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.6 + (i * 0.1) }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            ))}
+          </label>
           {photo ? (
             <div className="relative group rounded-xl overflow-hidden shadow-2xl">
               <img src={photo} className="w-full h-auto grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" alt="Preview" />
@@ -327,14 +361,23 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           transition={{ delay: 0.3 }}
           className="pb-24"
         >
-          <button
+          <motion.button
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ 
+              scaleX: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.4 },
+              opacity: { duration: 0.4, delay: 0.4 }
+            }}
+            style={{ originX: 0.5 }}
             type="submit"
             disabled={isSubmitting}
             className={`w-full ${isSubmitting ? 'bg-neutral-300' : 'bg-accent hover:bg-gold'} text-white py-8 font-sans text-sm uppercase tracking-[0.3em] font-bold transition-all shadow-2xl relative overflow-hidden group rounded-full`}
           >
             <span className="relative z-10">{isSubmitting ? 'Preserving memory...' : 'Leave your mark'}</span>
             {!isSubmitting && <div className="absolute inset-0 pointer-events-none bg-ink opacity-0 group-active:opacity-20 animate-ink-splash" />}
-          </button>
+          </motion.button>
         </motion.section>
       </form>
     </div>

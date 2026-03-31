@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, LogOut, Grid, List, Trash2, X, Check, Image as ImgIcon } from 'lucide-react';
-import { getAllEntries, deleteEntry, updateEntry } from '../utils/firebaseService';
+import { getAllEntries, deleteEntry, updateEntry, deleteAllEntries } from '../utils/firebaseService';
 import { clearAdminSession } from '../utils/storage';
 
 const AdminDashboard = ({ onLogout }) => {
@@ -36,6 +36,16 @@ const AdminDashboard = ({ onLogout }) => {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (window.confirm("DANGER: Delete all entries forever? This cannot be undone.")) {
+      if (window.confirm("Are you ABSOLUTELY sure? This will wipe the entire book for everyone.")) {
+        await deleteAllEntries();
+        refreshData();
+        showToast("All entries wiped");
+      }
+    }
+  };
+
 
 
   const filteredEntries = entries
@@ -55,16 +65,37 @@ const AdminDashboard = ({ onLogout }) => {
     <div className="min-h-screen bg-background font-sans text-ink pb-24">
       {/* Header Bar */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-neutral-200 px-8 py-4 flex justify-between items-center">
-        <h1 className="font-serif text-2xl">Lastpage — Admin</h1>
+        <h1 className="font-serif text-2xl flex gap-x-[0.3em]">
+          {["Lastpage", "—", "Admin"].map((word, i) => (
+            <span key={i} className="overflow-hidden inline-flex">
+              <motion.span
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 * i }}
+              >
+                {word}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
         <div className="text-xs uppercase tracking-widest font-bold text-accent">
           {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
         </div>
-        <button 
+        <motion.button 
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ 
+            scaleX: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 },
+            opacity: { duration: 0.4, delay: 0.15 }
+          }}
+          style={{ originX: 0.5 }}
           onClick={onLogout}
-          className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors font-bold"
+          className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors font-bold px-4 py-2 border border-transparent hover:border-neutral-100 rounded-full"
         >
           <LogOut className="w-4 h-4" /> Log out
-        </button>
+        </motion.button>
       </header>
 
       {/* Toolbar */}
@@ -100,7 +131,17 @@ const AdminDashboard = ({ onLogout }) => {
           </select>
         </div>
 
-        <div className="flex bg-white border border-neutral-200 rounded-md p-1">
+        <div className="flex items-center gap-4">
+          {entries.length > 0 && (
+            <button 
+              onClick={handleDeleteAll}
+              className="flex items-center gap-2 px-4 py-2 text-[10px] uppercase tracking-widest text-red-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-100 rounded-md transition-all font-bold"
+            >
+              <Trash2 className="w-4 h-4" /> Clear All
+            </button>
+          )}
+
+          <div className="flex bg-white border border-neutral-200 rounded-md p-1">
           <button 
             onClick={() => setView('grid')}
             className={`p-2 rounded ${view === 'grid' ? 'bg-background text-ink shadow-sm' : 'text-neutral-300'}`}
@@ -115,6 +156,7 @@ const AdminDashboard = ({ onLogout }) => {
           </button>
         </div>
       </div>
+    </div>
 
       <main className="px-8 py-12">
         {filteredEntries.length === 0 ? (

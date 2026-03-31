@@ -7,7 +7,8 @@ import {
   doc, 
   query, 
   orderBy,
-  serverTimestamp 
+  serverTimestamp,
+  writeBatch 
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase";
@@ -124,6 +125,23 @@ export const deleteEntry = async (id) => {
     await deleteDoc(docRef);
   } catch (error) {
     console.error("Error deleting entry:", error);
+    throw error;
+  }
+};
+
+/**
+ * Delete all entries (DANGER)
+ */
+export const deleteAllEntries = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, ENTRIES_COLLECTION));
+    const batch = writeBatch(db);
+    querySnapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+  } catch (error) {
+    console.error("Error clearing collection:", error);
     throw error;
   }
 };

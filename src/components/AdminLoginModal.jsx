@@ -39,7 +39,19 @@ const AdminLoginModal = ({ isOpen, onClose, onLogin }) => {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className="font-serif text-4xl text-ink mb-12 text-center">Admin Access</h2>
+            <h2 className="font-serif text-4xl text-ink mb-12 text-center flex flex-wrap justify-center gap-x-[0.3em]">
+              {["Admin", "Access"].map((word, i) => (
+                <span key={i} className="overflow-hidden inline-flex">
+                  <motion.span
+                    initial={{ x: "-100%" }}
+                    animate={{ x: 0 }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.3 + (i * 0.15) }}
+                  >
+                    {word}
+                  </motion.span>
+                </span>
+              ))}
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className={`relative ${error ? 'animate-shake' : ''}`}>
@@ -59,12 +71,21 @@ const AdminLoginModal = ({ isOpen, onClose, onLogin }) => {
                 )}
               </div>
 
-              <button
+              <motion.button
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ 
+                  scaleX: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.3 },
+                  opacity: { duration: 0.4, delay: 0.3 }
+                }}
+                style={{ originX: 0.5 }}
                 type="submit"
                 className="w-full bg-ink text-background py-6 font-sans text-xs uppercase tracking-[0.2em] font-bold hover:bg-gold transition-colors flex items-center justify-center gap-3 rounded-full"
               >
                 Enter <ArrowRight className="w-4 h-4" />
-              </button>
+              </motion.button>
 
               <button 
                 type="button"

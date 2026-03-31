@@ -92,7 +92,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
               visible: { 
                 opacity: 1, 
                 y: 0, 
-                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.1 } 
               }
             }}
             className="flex justify-center mb-6 sm:mb-8 pb-4 w-full"
@@ -108,8 +108,19 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                 }}
                 className="absolute inset-0 bg-white origin-left rounded-lg pointer-events-none"
               />
-              <h1 className="relative z-10 font-serif text-4xl sm:text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight">
-                Lastpage
+              <h1 className="relative z-10 font-serif text-4xl sm:text-6xl md:text-8xl text-black leading-[1.1] -tracking-tight flex flex-wrap justify-center gap-x-[0.1em]">
+                {["Lastpage"].map((word, i) => (
+                  <span key={i} className="overflow-hidden inline-flex">
+                    <motion.span
+                      variants={{
+                        hidden: { x: "-100%" },
+                        visible: { x: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  </span>
+                ))}
               </h1>
             </div>
           </motion.div>
@@ -132,10 +143,17 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             className="flex flex-col md:flex-row gap-3 sm:gap-8 justify-center items-center w-full"
           >
             <motion.button
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              transition={{ 
+                scaleX: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.8 },
+                opacity: { duration: 0.5, delay: 0.8 }
+              }}
+              style={{ originX: 0.5 }}
               onClick={onSelectFriend}
-              className="w-full sm:w-fit bg-transparent px-5 py-2 sm:px-8 sm:py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center"
+              className="w-full sm:w-fit bg-transparent px-5 py-2 sm:px-8 sm:py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center overflow-hidden"
             >
               <span className="font-sans text-sm sm:text-lg font-medium text-white tracking-tight transition-colors duration-100">I'm a friend</span>
               <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white/60 group-hover:text-white/90 font-semibold mt-0.5 sm:mt-1 transition-colors duration-100">Enter the book</span>
