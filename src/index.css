@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;700&family=Press+Start+2P&family=Doto:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;700&family=Press+Start+2P&family=Doto:wght@900&family=Google+Sans+Mono:wght@400&display=swap');
 
 .font-pixel {
   font-family: 'Press Start 2P', cursive;
@@ -7,6 +7,11 @@
 .font-dot {
   font-family: 'Doto', sans-serif;
   font-weight: 900;
+}
+
+.font-code {
+  font-family: 'Google Sans Mono', monospace;
+  font-weight: 400;
 }
 
 @tailwind base;
