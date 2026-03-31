@@ -28,7 +28,10 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   // Special Message Typewriter Progress
   useEffect(() => {
     if (showSpecialMessage) {
-      const totalLen = (session.name?.length || 0) + 1 + 250; // Approximating total length
+      const body = "This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.";
+      const signature = "by Blesson";
+      const totalLen = (session.name?.length || 0) + 1 + body.length + signature.length + 10; // +buffer for safe completion
+      
       const interval = setInterval(() => {
         setVisibleChars(prev => {
           if (prev < totalLen) return prev + 1;
@@ -140,52 +143,62 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           />
 
           <div className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink leading-relaxed flex-grow">
+            {/* Greeting */}
             <div className="mb-8">
-              {`${session.name},`.split("").map((char, i) => (
-                <span key={i} className={i < visibleChars ? "opacity-100" : "opacity-0"}>
-                  {char}
-                </span>
-              ))}
-              {visibleChars > 0 && visibleChars <= (session.name?.length || 0) + 1 && (
-                <motion.span
-                  className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
-                />
-              )}
+              {(() => {
+                const greeting = `${session.name},`;
+                return greeting.split("").map((char, i) => (
+                  i < visibleChars && <span key={i}>{char}</span>
+                ));
+              })()}
+              {(() => {
+                const nameLen = (session.name?.length || 0) + 1;
+                return visibleChars > 0 && visibleChars <= nameLen && (
+                  <motion.span className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle" />
+                );
+              })()}
             </div>
             
+            {/* Body */}
             <div className="mb-12">
-              {"This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.".split("").map((char, i) => {
+              {(() => {
+                const body = "This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.";
                 const offset = (session.name?.length || 0) + 1;
                 return (
-                  <span key={i} className={i + offset < visibleChars ? "opacity-100" : "opacity-0"}>
-                    {char}
-                  </span>
+                  <>
+                    {body.split("").map((char, i) => (
+                      i + offset < visibleChars && <span key={i}>{char}</span>
+                    ))}
+                    {visibleChars > offset && visibleChars <= offset + body.length && (
+                      <motion.span className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle" />
+                    )}
+                  </>
                 );
-              })}
-              {visibleChars > (session.name?.length || 0) + 1 && visibleChars <= (session.name?.length || 0) + 1 + 250 && (
-                <motion.span
-                  className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
-                />
-              )}
+              })()}
             </div>
           </div>
 
+          {/* Signature */}
           <div className="relative z-10 font-handwriting text-3xl sm:text-4xl text-ink text-right mt-auto">
-            {"by Blesson".split("").map((char, i) => {
-              const offset = (session.name?.length || 0) + 1 + 250;
+            {(() => {
+              const body = "This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a classmate; you were my best friend. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.";
+              const signature = "by Blesson";
+              const offset = (session.name?.length || 0) + 1 + body.length;
               return (
-                <span key={i} className={i + offset < visibleChars ? "opacity-100" : "opacity-0"}>
-                  {char}
-                </span>
+                <>
+                  {signature.split("").map((char, i) => (
+                    i + offset < visibleChars && <span key={i}>{char}</span>
+                  ))}
+                  {visibleChars > offset && (
+                    <motion.span
+                      animate={visibleChars >= offset + signature.length ? { opacity: [0, 1, 0] } : { opacity: 1 }}
+                      transition={{ repeat: Infinity, duration: 0.8 }}
+                      className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
+                    />
+                  )}
+                </>
               );
-            })}
-            {visibleChars > (session.name?.length || 0) + 1 + 250 && (
-              <motion.span
-                animate={visibleChars >= (session.name?.length || 0) + 260 ? { opacity: [0, 1, 0] } : { opacity: 1 }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                className="inline-block w-[0.5em] h-[0.9em] bg-accent/60 ml-1 align-middle"
-              />
-            )}
+            })()}
           </div>
         </motion.div>
 
