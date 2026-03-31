@@ -57,6 +57,9 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
           </motion.div>
         ))}
       </div>
+      
+      {/* Bottom Black Gradient overlay */}
+      <div className="absolute inset-x-0 bottom-0 h-[40vh] bg-gradient-to-t from-black/60 via-black/20 to-transparent z-[5] pointer-events-none" />
 
       <motion.div
         initial="hidden"

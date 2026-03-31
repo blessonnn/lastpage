@@ -102,54 +102,6 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
     );
   }
 
-  if (isSuccessVisible) {
-    return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="min-h-screen bg-background flex flex-col justify-center items-center text-center p-6"
-      >
-        <div className="wax-seal-pop mb-12 relative">
-          <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="48" fill="#C9826B" />
-            <path d="M35 50L45 60L65 40" stroke="white" strokeWidth="4" strokeLinecap="round" />
-            <circle cx="50" cy="50" r="42" stroke="white" strokeWidth="1" strokeDasharray="4 4" opacity="0.4" />
-          </svg>
-        </div>
-        <h2 className="font-serif text-5xl text-ink mb-4">Your page has been saved.</h2>
-        <p className="font-serif italic text-xl text-neutral-400">"See you on the other side."</p>
-        <div className="flex flex-col gap-4 mt-16 w-full max-w-xs mx-auto">
-          <motion.button 
-            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
-            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
-            onClick={() => setIsSuccessVisible(false)}
-            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-accent font-bold transition-colors"
-          >
-            View your entry
-          </motion.button>
-          
-          <motion.button 
-            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
-            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
-            onClick={onSignOut}
-            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
-          >
-            Go back to front page
-          </motion.button>
-
-          <motion.button 
-            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
-            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
-            onClick={() => setShowSpecialMessage(true)}
-            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
-          >
-            From Me, To You
-          </motion.button>
-        </div>
-      </motion.div>
-    );
-  }
-
   if (showSpecialMessage) {
     return (
       <motion.div 
@@ -208,6 +160,54 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         >
           Go back
         </motion.button>
+      </motion.div>
+    );
+  }
+
+  if (isSuccessVisible) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="min-h-screen bg-background flex flex-col justify-center items-center text-center p-6"
+      >
+        <div className="wax-seal-pop mb-12 relative">
+          <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="48" fill="#C9826B" />
+            <path d="M35 50L45 60L65 40" stroke="white" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="50" cy="50" r="42" stroke="white" strokeWidth="1" strokeDasharray="4 4" opacity="0.4" />
+          </svg>
+        </div>
+        <h2 className="font-serif text-5xl text-ink mb-4">Your page has been saved.</h2>
+        <p className="font-serif italic text-xl text-neutral-400">"See you on the other side."</p>
+        <div className="flex flex-col gap-4 mt-16 w-full max-w-xs mx-auto">
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={() => setIsSuccessVisible(false)}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-accent font-bold transition-colors"
+          >
+            View your entry
+          </motion.button>
+          
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={onSignOut}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
+          >
+            Go back to front page
+          </motion.button>
+
+          <motion.button 
+            whileHover={{ y: -2, backgroundColor: 'rgba(0,0,0,0.02)' }}
+            whileTap={{ y: 2, scale: 0.98, backgroundColor: 'rgba(0,0,0,0.05)' }}
+            onClick={() => setShowSpecialMessage(true)}
+            className="w-full py-4 rounded-full border border-neutral-200 text-[10px] uppercase tracking-[0.2em] text-neutral-400 hover:text-ink transition-colors font-bold"
+          >
+            From Me, To You
+          </motion.button>
+        </div>
       </motion.div>
     );
   }
