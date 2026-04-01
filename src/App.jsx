@@ -23,13 +23,7 @@ function App() {
   const [adminSession, setAdminSessionState] = useState(getAdminSession());
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  useEffect(() => {
-    // Show loading screen for a set duration to match the internal animation
-    const timer = setTimeout(() => {
-      setIsInitialLoading(false);
-    }, 7000); 
-    return () => clearTimeout(timer);
-  }, []);
+  // App is now controlled by LoadingScreen onComplete callback
 
   const handleSelectFriend = () => {
     setView('friend_entry');
@@ -61,7 +55,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       <AnimatePresence mode="wait">
         {isInitialLoading ? (
           <LoadingScreen key="loading" onComplete={() => setIsInitialLoading(false)} />
@@ -70,7 +64,7 @@ function App() {
             key="main-content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             className="min-h-screen"
           >
             <AnimatePresence mode="wait">
