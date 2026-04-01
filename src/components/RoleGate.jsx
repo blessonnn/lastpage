@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getAllEntries } from '../utils/firebaseService';
-
-const frames = [
-  "abhinav.png", "abhiraj.png", "adil.png", "akshara.png", "amal.png", 
-  "anooja.png", "aysha.png", "bloppen.png", "chemb.png", "echiii.png", "fidha.png", 
-  "gagna.png", "gokool.png", "gopi.png", "hamda.png", "lamiya.png", 
-  "leshman.png", "liyakath.png", "megha.png", "mishal.png", "muthu.png", 
-  "naseef.png", "naseem.png", "pacha.png", "punni.png", "riya.png", "saja.png", 
-  "salman.png", "shamila.png", "siva.png", "suttu.png", "vasu.png", 
-  "vismaya.png", "vivek.png", "ziya.png"
-];
-
-const row1Frames = frames;
-const row2Frames = [...frames.slice(11), ...frames.slice(0, 11)];
-const row3Frames = [...frames.slice(22), ...frames.slice(0, 22)];
-const rows = [row1Frames, row2Frames, row3Frames];
+import PhotoConstellation from './PhotoConstellation';
 
 const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
   const [count, setCount] = useState(0);
@@ -29,38 +15,13 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
   }, []);
   
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-zinc-50 overflow-hidden">
-      {/* Background Image Layer: Sliding Marquees */}
-      <div className="absolute inset-0 z-0 opacity-100 overflow-hidden pointer-events-none flex flex-col justify-center gap-2 sm:gap-3 md:gap-4">
-        {rows.map((rowArr, rowIndex) => (
-          <motion.div
-            key={rowIndex}
-            className="flex gap-2 sm:gap-3 md:gap-4 shrink-0"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ 
-              repeat: Infinity, 
-              ease: "linear", 
-              duration: 40 + (rowIndex * 15) // speeds: 40s, 55s, 70s
-            }}
-            style={{ width: "max-content" }}
-          >
-            {[...rowArr, ...rowArr].map((frame, idx) => (
-              <div key={`${frame}-${idx}-${rowIndex}`} className="w-[28vh] h-[38vh] sm:w-28 sm:h-auto md:w-36 lg:w-44 xl:w-48 aspect-[3/4] rounded-lg overflow-hidden shadow-sm shrink-0">
-                <img 
-                  src={`/frames/${frame}`} 
-                  alt="Memory Frame" 
-                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </motion.div>
-        ))}
-      </div>
-      
-      {/* Bottom Black Gradient overlay */}
-      <div className="absolute inset-x-0 bottom-0 h-[40vh] bg-gradient-to-t from-black/60 via-black/20 to-transparent z-[5] pointer-events-none" />
+    <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 relative bg-zinc-950 overflow-hidden select-none">
+      {/* Photo Constellation Background */}
+      <PhotoConstellation />
 
+      {/* Cinematic Vignette Overlay - Softened */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_20%,_rgba(0,0,0,0.7)_100%)] z-[1] pointer-events-none" />
+      
       <motion.div
         initial="hidden"
         animate="visible"
@@ -71,106 +32,88 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             transition: { staggerChildren: 0.2, delayChildren: 0.1 }
           }
         }}
-        className="w-full max-w-[90vw] sm:max-w-full md:max-w-auto relative z-10 mx-auto"
+        className="w-full max-w-[90vw] sm:max-w-full relative z-10 mx-auto"
       >
-        {/* Barely visible Translucent Rectangle wrapping the core content */}
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-10 md:p-16 shadow-2xl border border-white/10 w-full max-w-2xl mx-auto flex flex-col items-center">
+        {/* Core Content Container - Reduced size and spacing */}
+        <div className="bg-black/20 backdrop-blur-md rounded-2xl p-6 sm:p-10 border border-white/10 w-full max-w-xl mx-auto flex flex-col items-center shadow-[0_0_100px_rgba(0,0,0,0.5)]">
           
           <motion.span 
             variants={{
-              hidden: { y: 30, opacity: 0 },
-              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              hidden: { y: 20, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
             }}
-            className="text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/80 font-semibold mb-4 sm:mb-6 block w-full text-center"
+            className="text-[9px] uppercase tracking-[0.5em] text-accent font-bold mb-4 block w-full text-center drop-shadow-[0_0_15px_rgba(var(--accent-rgb),0.5)]"
           >
             Class of 2026
           </motion.span>
           
           <motion.div 
             variants={{
-              hidden: { opacity: 0, y: 30 },
+              hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
               visible: { 
                 opacity: 1, 
                 y: 0, 
-                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.1 } 
+                filter: 'blur(0px)',
+                transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } 
               }
             }}
-            className="flex justify-center mb-6 sm:mb-8 pb-4 w-full"
+            className="flex justify-center mb-3 w-full"
           >
-            <div className="relative inline-block">
-              <h1 className="relative z-10 font-serif text-4xl sm:text-6xl md:text-8xl text-white leading-[1.1] -tracking-tight flex flex-wrap justify-center">
-                {"Lastpage".split("").map((char, i) => (
-                  <motion.span
-                    key={i}
-                    variants={{
-                      hidden: { opacity: 0 },
-                      visible: { 
-                        opacity: 1,
-                        transition: { duration: 0.05, delay: 1.2 + (0.08 * i) } 
-                      }
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </h1>
-            </div>
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl text-white leading-[0.9] -tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+              Lastpage
+            </h1>
           </motion.div>
           
           <motion.p 
             variants={{
-              hidden: { y: 30, opacity: 0 },
-              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              hidden: { y: 20, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 } }
             }}
-            className="font-serif italic text-sm sm:text-lg md:text-xl text-white/90 max-w-lg mx-auto leading-relaxed mb-6 sm:mb-12 px-2 sm:px-0 text-center"
+            className="font-serif italic text-base sm:text-lg md:text-xl text-white/70 max-w-md mx-auto leading-snug mb-6 text-center"
           >
             "Leave your mark before the chapter ends."
           </motion.p>
 
           <motion.div 
             variants={{
-              hidden: { y: 30, opacity: 0 },
-              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              hidden: { y: 20, opacity: 0 },
+              visible: { y: 0, opacity: 1, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.6 } }
             }}
-            className="flex flex-col md:flex-row gap-3 sm:gap-8 justify-center items-center w-full"
+            className="flex flex-col items-center w-full"
           >
             <motion.button
-              initial={{ scaleX: 0.6, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              whileHover={{ y: -4, scale: 1.02, backgroundColor: "rgba(0,0,0,0.8)" }}
-              whileTap={{ y: 2, scale: 0.98 }}
-              transition={{ 
-                scaleX: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 1.5 },
-                opacity: { duration: 0.6, delay: 1.5 }
-              }}
-              style={{ originX: 0.5 }}
+              whileHover={{ y: -4, scale: 1.02, backgroundColor: "rgba(255,255,255,0.05)" }}
+              whileTap={{ y: 2, scale: 0.98, backgroundColor: "#000000", color: "#ffffff" }}
               onClick={onSelectFriend}
-              className="w-full sm:w-fit bg-transparent px-5 py-2 sm:px-8 sm:py-3 rounded-full border border-white/50 group transition-all duration-100 hover:bg-black hover:border-black flex flex-col items-center justify-center overflow-hidden"
+              className="group relative px-10 py-3 rounded-full border border-white/20 transition-all duration-500 hover:border-white/40 overflow-hidden"
             >
-              <span className="font-sans text-sm sm:text-lg font-medium text-white tracking-tight transition-colors duration-100">I'm a friend</span>
-              <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white/60 group-hover:text-white/90 font-semibold mt-0.5 sm:mt-1 transition-colors duration-100">Enter the book</span>
+              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="relative z-10 font-sans text-base font-medium text-white tracking-widest uppercase">I'm a friend</span>
+              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 group-hover:text-white/60 font-semibold mt-0.5 transition-colors duration-500">Enter the book</div>
             </motion.button>
           </motion.div>
 
-          {count > 0 && (
-            <motion.div 
-              variants={{
-                hidden: { y: 30, opacity: 0 },
-                visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-              }}
-              className="mt-6 sm:mt-10 text-[10px] sm:text-sm text-white/70 font-sans tracking-wide text-center"
-            >
-              {count} {count === 1 ? 'friend' : 'friends'} have signed the book
-            </motion.div>
-          )}
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 1 } }
+            }}
+            className="mt-8 text-[10px] text-white/30 font-sans tracking-[0.2em] uppercase"
+          >
+            {count > 0 ? (
+              <span>{count} {count === 1 ? 'friend' : 'friends'} already joined</span>
+            ) : (
+              <span>Starting the story...</span>
+            )}
+          </motion.div>
 
           <motion.button
             variants={{
-              hidden: { y: 30, opacity: 0 },
-              visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 1.5 } }
             }}
             onClick={onSelectAdmin}
-            className="mt-8 sm:mt-16 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.3em] text-white/40 hover:text-white transition-colors font-sans py-2"
+            className="mt-12 text-[8px] uppercase tracking-[0.4em] text-white/20 hover:text-white/60 transition-colors font-sans py-2"
           >
             Admin Access
           </motion.button>

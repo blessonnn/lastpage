@@ -19,8 +19,13 @@
 @tailwind utilities;
 
 :root {
-  background-color: #F9F6F0;
-  color: #1A1A1A;
+  --background: #F9F6F0;
+  --ink: #1A1A1A;
+  --accent: #C9826B;
+  --accent-rgb: 201, 130, 107;
+  --gold: #C4A25D;
+  background-color: var(--background);
+  color: var(--ink);
   scroll-behavior: smooth;
 }
 
