@@ -16,9 +16,49 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSpecialMessage, setShowSpecialMessage] = useState(false);
 
+  // Typewriter States for Title and Placeholder
+  const [titleDisplay, setTitleDisplay] = useState("");
+  const [titleDone, setTitleDone] = useState(false);
+  const [placeholderDisplay, setPlaceholderDisplay] = useState("");
+  const [placeholderDone, setPlaceholderDone] = useState(false);
+
+  const fullTitle = `${session.name}'s page`;
+  const fullPlaceholder = `${session.name}e, write something .. `;
+
   const fileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  useEffect(() => {
+    // Title Typewriter
+    let i = 0;
+    const titleInterval = setInterval(() => {
+      if (i < fullTitle.length) {
+        setTitleDisplay(fullTitle.slice(0, i + 1));
+        i++;
+      } else {
+        setTitleDone(true);
+        clearInterval(titleInterval);
+      }
+    }, 60);
+
+    // Placeholder Typewriter (slightly delayed)
+    let j = 0;
+    const placeholderInterval = setInterval(() => {
+      if (j < fullPlaceholder.length) {
+        setPlaceholderDisplay(fullPlaceholder.slice(0, j + 1));
+        j++;
+      } else {
+        setPlaceholderDone(true);
+        clearInterval(placeholderInterval);
+      }
+    }, 40);
+
+    return () => {
+      clearInterval(titleInterval);
+      clearInterval(placeholderInterval);
+    };
+  }, [fullTitle, fullPlaceholder]);
 
   useEffect(() => {
     if (!isSubmitted) {
@@ -97,9 +137,9 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
             <div className="mt-20 pt-12 border-t border-neutral-50 flex items-center justify-between">
               <button 
                 onClick={() => setShowSpecialMessage(true)} 
-                className="group flex items-center gap-3 px-8 py-5 rounded-full bg-accent text-white font-code text-[11px] uppercase tracking-[0.4em] font-black hover:bg-zinc-950 transition-all shadow-xl shadow-accent/20"
+                className="group flex items-center gap-3 px-8 py-4 rounded-full bg-accent text-white font-code text-[11px] uppercase tracking-[0.4em] font-black hover:bg-zinc-950 transition-all shadow-xl shadow-accent/20"
               >
-                <Heart className="w-4 h-4 fill-current group-hover:scale-125 transition-transform" />
+                <Heart className="w-3.5 h-3.5 fill-current group-hover:scale-125 transition-transform" />
                 From Me, To You
               </button>
               <button onClick={onSignOut} className="text-[10px] uppercase font-bold tracking-widest text-neutral-300 hover:text-ink transition-colors">Sign out</button>
@@ -109,7 +149,6 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
     );
   }
 
-  // Final Special Message View
   if (showSpecialMessage) {
     return <SpecialMessage session={session} onBack={() => setShowSpecialMessage(false)} onSignOut={onSignOut} />;
   }
@@ -134,7 +173,10 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
     <div className="min-h-screen bg-background flex flex-col items-center py-12 px-4 sm:px-6 relative">
       <header className="w-full max-w-[95vw] lg:max-w-7xl mb-12 flex flex-col items-center sm:items-start sm:px-12">
         <span className="text-[9px] uppercase tracking-[0.5em] font-black mb-2 opacity-30">Writing Room</span>
-        <h1 className="font-code text-6xl md:text-8xl text-ink lowercase tracking-tighter italic drop-shadow-sm">{session.name}'s page</h1>
+        <h1 className="font-code text-6xl md:text-8xl text-ink lowercase tracking-tighter italic min-h-[1.2em]">
+           {titleDisplay}
+           {!titleDone && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.8em] bg-accent ml-2 align-middle" />}
+        </h1>
       </header>
 
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-[95vw] lg:max-w-7xl bg-white p-6 sm:p-20 lg:p-28 rounded-[4rem] lg:rounded-[5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white flex flex-col min-h-[80vh] relative">
@@ -149,14 +191,25 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
               required={!voice}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="write something .. " 
-              className="w-full flex-grow bg-transparent border-none focus:ring-0 focus:outline-none text-2xl sm:text-6xl font-code text-transparent caret-accent resize-none placeholder:text-neutral-200 leading-tight custom-scrollbar"
+              placeholder="" 
+              className="w-full flex-grow bg-transparent border-none focus:ring-0 focus:outline-none text-2xl sm:text-6xl font-code text-transparent caret-accent resize-none leading-tight custom-scrollbar"
             />
+            
+            {/* Typewriter Overlay for Content and Placeholder */}
             <div className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words text-2xl sm:text-6xl font-code text-ink leading-tight">
-              {message.split('').map((char, i) => (
-                <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }}>{char}</motion.span>
-              ))}
-              {message.length > 0 && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.2em] h-[0.9em] bg-accent ml-2 align-middle shadow-[0_0_15px_rgba(var(--accent-rgb),0.3)]" />}
+              {message.length === 0 ? (
+                <span className="text-neutral-200">
+                  {placeholderDisplay}
+                  {!placeholderDone && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.8em] bg-accent/30 ml-1 align-middle" />}
+                </span>
+              ) : (
+                <>
+                  {message.split('').map((char, i) => (
+                    <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.05 }}>{char}</motion.span>
+                  ))}
+                  <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.2em] h-[0.9em] bg-accent ml-2 align-middle shadow-[0_0_15px_rgba(var(--accent-rgb),0.3)]" />
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -216,7 +269,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   );
 };
 
-// --- Sub-component for the Special "From Me, To You" Message ---
+// --- Special Message ---
 const SpecialMessage = ({ session, onBack, onSignOut }) => {
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -235,20 +288,18 @@ const SpecialMessage = ({ session, onBack, onSignOut }) => {
         setIsTypingComplete(true);
         clearInterval(interval);
       }
-    }, 40); // Snappy high-end reveal
+    }, 40);
     return () => clearInterval(interval);
   }, [fullText]);
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col justify-center items-center p-6 text-white overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(var(--accent-rgb),0.1)_0%,_transparent_100%)] pointer-events-none" />
-      
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="w-full max-w-4xl bg-white/5 backdrop-blur-3xl p-12 sm:p-24 rounded-[4rem] border border-white/10 shadow-3xl relative">
-        <div className="relative font-code text-2xl sm:text-4xl leading-relaxed whitespace-pre-wrap">
+        <div className="relative font-code text-2xl sm:text-4xl leading-relaxed whitespace-pre-wrap min-h-[40vh]">
           {displayText}
           <motion.span animate={{ opacity: isTypingComplete ? [0.2, 0] : [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.9em] bg-accent ml-2 align-middle" />
         </div>
-        
         <div className="mt-20 flex items-center justify-between">
            <button onClick={onBack} className="text-[10px] uppercase font-bold tracking-[0.5em] text-white/30 hover:text-accent transition-colors">Go Back</button>
            <button onClick={onSignOut} className="px-10 py-5 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-[0.5em] hover:bg-white hover:text-black transition-all">Sign Out</button>
