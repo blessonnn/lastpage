@@ -85,6 +85,7 @@ export const submitEntry = async (entryData) => {
       name: entryData.name,
       message: entryData.message,
       photo: photoData || null,
+      voice: entryData.voice || null,
       submittedAt: serverTimestamp()
     });
 

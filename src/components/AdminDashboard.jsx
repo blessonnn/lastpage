@@ -177,11 +177,12 @@ const AdminDashboard = ({ onLogout }) => {
                 onClick={() => setSelectedEntry(entry)}
                 className="admin-card p-8 cursor-pointer group relative overflow-hidden"
               >
-                {/* Photo indicator */}
-                {entry.photo && (
-                  <div className="absolute top-0 left-0 w-full h-1 bg-accent/20" />
-                )}
-                
+                {/* Photo and Voice indicators */}
+                <div className="absolute top-0 left-0 w-full flex gap-[1px]">
+                  {entry.photo && <div className="h-1 bg-accent/30 flex-1" />}
+                  {entry.voice && <div className="h-1 bg-blue-400/30 flex-1" />}
+                </div>
+
                 {entry.submittedAt && (Date.now() - new Date(entry.submittedAt).getTime() < 86400000) && (
                   <div className="absolute top-4 right-4 flex items-center gap-1">
                     <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
@@ -189,7 +190,12 @@ const AdminDashboard = ({ onLogout }) => {
                   </div>
                 )}
 
-                <h3 className="font-serif text-2xl mb-4 text-ink">{entry.name}</h3>
+                <h3 className="font-serif text-2xl mb-2 text-ink">{entry.name}</h3>
+                <div className="flex gap-2 mb-4">
+                  {entry.photo && <span className="text-[8px] uppercase tracking-widest px-2 py-0.5 bg-accent/10 text-accent rounded-full font-bold">Photo</span>}
+                  {entry.voice && <span className="text-[8px] uppercase tracking-widest px-2 py-0.5 bg-blue-500/10 text-blue-500 rounded-full font-bold">Voice</span>}
+                </div>
+                
                 <p className="text-sm text-ink-muted line-clamp-2 md:line-clamp-3 mb-6 font-sans italic">
                   "{entry.message}"
                 </p>
@@ -224,7 +230,7 @@ const AdminDashboard = ({ onLogout }) => {
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Message Preview</th>
                   <th className="px-6 py-4">Date</th>
-                  <th className="px-6 py-4">Has Photo</th>
+                  <th className="px-6 py-4">Details</th>
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -238,8 +244,9 @@ const AdminDashboard = ({ onLogout }) => {
                     <td className="px-6 py-6 font-serif text-lg">{entry.name}</td>
                     <td className="px-6 py-6 text-neutral-500 italic max-w-md truncate">"{entry.message}"</td>
                     <td className="px-6 py-6 text-neutral-400 tracking-tighter">{new Date(entry.submittedAt).toLocaleDateString()}</td>
-                    <td className="px-6 py-6">
-                      {entry.photo && <span className="w-2 h-2 bg-accent rounded-full block" />}
+                    <td className="px-6 py-6 flex gap-2">
+                      {entry.photo && <div className="w-2 h-2 bg-accent rounded-full" title="Has photo" />}
+                      {entry.voice && <div className="w-2 h-2 bg-blue-500 rounded-full" title="Has voice" />}
                     </td>
                     <td className="px-6 py-6 text-right space-x-6">
                       <button 
@@ -291,6 +298,22 @@ const AdminDashboard = ({ onLogout }) => {
                        <p className="font-sans text-xl text-ink-muted leading-relaxed italic border-l-4 border-accent/20 pl-8 py-2">
                          "{selectedEntry.message}"
                        </p>
+                       
+                       {selectedEntry.voice && (
+                         <div className="p-6 bg-accent/5 rounded-2xl border border-accent/10 space-y-4">
+                           <div className="flex items-center gap-4">
+                             <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white">
+                               <Play className="w-5 h-5 fill-current" />
+                             </div>
+                             <div>
+                               <p className="text-[10px] uppercase font-bold text-accent tracking-widest">Voice Message</p>
+                               <p className="text-xs text-neutral-400">Recorded by {selectedEntry.name}</p>
+                             </div>
+                           </div>
+                           <audio src={selectedEntry.voice} controls className="w-full h-10 mt-2" />
+                         </div>
+                       )}
+
                        <div className="text-[10px] uppercase tracking-widest text-neutral-300 space-y-2">
                          <p>ID: {selectedEntry.id}</p>
                          <p>Date: {new Date(selectedEntry.submittedAt).toLocaleString()}</p>
