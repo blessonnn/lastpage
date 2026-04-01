@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, LogOut, Grid, List, Trash2, X, Check, Image as ImgIcon } from 'lucide-react';
+import { Search, LogOut, Grid, List, Trash2, X, Check, Image as ImgIcon, Play } from 'lucide-react';
 import { getAllEntries, deleteEntry, updateEntry, deleteAllEntries } from '../utils/firebaseService';
 import { clearAdminSession } from '../utils/storage';
 
@@ -85,17 +85,10 @@ const AdminDashboard = ({ onLogout }) => {
           {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
         </div>
         <motion.button 
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ 
-            scaleX: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 },
-            opacity: { duration: 0.4, delay: 0.15 }
-          }}
-          style={{ originX: 0.5 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onLogout}
-          className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-neutral-400 hover:text-ink transition-colors font-bold px-4 py-2 border border-transparent hover:border-neutral-100 rounded-full"
+          className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 text-white text-[10px] uppercase font-bold tracking-widest hover:bg-white hover:text-black transition-all duration-300"
         >
           <LogOut className="w-4 h-4" /> Log out
         </motion.button>

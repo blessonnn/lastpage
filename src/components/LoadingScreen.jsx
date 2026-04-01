@@ -22,7 +22,7 @@ const LoadingScreen = ({ onComplete }) => {
       if (displayText.length < targetYear.length) {
         const timeout = setTimeout(() => {
           setDisplayText(targetYear.slice(0, displayText.length + 1));
-        }, 150);
+        }, 50); // Faster typing
         return () => clearTimeout(timeout);
       } else {
         // Done typing current year
@@ -30,7 +30,7 @@ const LoadingScreen = ({ onComplete }) => {
       }
     } else {
       // Pause then move to next year
-      const pauseTime = index === years.length - 1 ? 2000 : 800;
+      const pauseTime = index === years.length - 1 ? 1000 : 300; // Faster transitions
       const timeout = setTimeout(() => {
         if (index < years.length - 1) {
           setIndex(prev => prev + 1);
