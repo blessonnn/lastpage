@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const LoadingScreen = ({ onComplete }) => {
   const years = [2022, 2023, 2024, 2025, 2026];
+  const captions = [
+    "A blank page awaits...",
+    "Collecting memories...",
+    "Moments turning into years...",
+    "One more step...",
+    "Leaving our mark."
+  ];
+
   const [index, setIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
@@ -14,25 +22,25 @@ const LoadingScreen = ({ onComplete }) => {
       if (displayText.length < targetYear.length) {
         const timeout = setTimeout(() => {
           setDisplayText(targetYear.slice(0, displayText.length + 1));
-        }, 150); // Steady typing speed
+        }, 150);
         return () => clearTimeout(timeout);
       } else {
+        // Done typing current year
         setIsTyping(false);
-        // Pause duration: Longer for the final year to build anticipation
-        const pauseTime = index === years.length - 1 ? 1500 : 600; 
-        
-        const timeout = setTimeout(() => {
-          if (index < years.length - 1) {
-            setIndex(index + 1);
-            setDisplayText(""); // Reset for the next year
-            setIsTyping(true);
-          } else {
-            // Signal completion to parent
-            onComplete();
-          }
-        }, pauseTime);
-        return () => clearTimeout(timeout);
       }
+    } else {
+      // Pause then move to next year
+      const pauseTime = index === years.length - 1 ? 2000 : 800;
+      const timeout = setTimeout(() => {
+        if (index < years.length - 1) {
+          setIndex(prev => prev + 1);
+          setDisplayText("");
+          setIsTyping(true);
+        } else {
+          onComplete();
+        }
+      }, pauseTime);
+      return () => clearTimeout(timeout);
     }
   }, [index, displayText, isTyping, onComplete, years]);
 
@@ -59,7 +67,7 @@ const LoadingScreen = ({ onComplete }) => {
         )}
         
         <div className="flex items-center justify-center min-h-[120px] sm:min-h-[160px]">
-          <span className={`font-dot tracking-tighter transition-all duration-700 ${
+          <span className={`font-code tracking-tighter transition-all duration-700 ${
             index === years.length - 1 
               ? 'text-7xl sm:text-9xl text-accent drop-shadow-[0_0_30px_rgba(var(--accent-rgb),0.4)]' 
               : 'text-5xl sm:text-7xl text-white/30'
@@ -73,14 +81,23 @@ const LoadingScreen = ({ onComplete }) => {
           </span>
         </div>
         
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.2, y: 0 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="mt-12 text-[10px] sm:text-xs uppercase tracking-[0.5em] text-white font-sans font-medium"
-        >
-          {index === years.length - 1 ? "The Story Begins" : "Rewinding Memories"}
-        </motion.div>
+        <div className="mt-12 h-20 flex flex-col items-center">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col items-center gap-4"
+            >
+              <div className="w-12 h-[1px] bg-white/20" />
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.5em] text-white/40 font-sans font-medium">
+                {captions[index]}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </motion.div>
   );
