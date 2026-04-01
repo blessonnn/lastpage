@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase";
+import { sendNewMemoryNotification } from "./emailNotification";
 
 /**
  * Utility to compress image before upload (Returns Base64 Data URL)
@@ -88,6 +89,9 @@ export const submitEntry = async (entryData) => {
       voice: entryData.voice || null,
       submittedAt: serverTimestamp()
     });
+
+    // 3. Send email notification to admin (non-blocking)
+    sendNewMemoryNotification(entryData.name);
 
     return { 
       id: docRef.id, 
