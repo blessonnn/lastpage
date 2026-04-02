@@ -170,29 +170,29 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center py-12 px-4 sm:px-6 relative">
-      <header className="w-full max-w-[95vw] lg:max-w-7xl mb-12 flex flex-col items-center sm:items-start sm:px-12">
-        <span className="text-[9px] uppercase tracking-[0.5em] font-black mb-2 opacity-30">Writing Room</span>
-        <h1 className="font-code text-6xl md:text-8xl text-ink lowercase tracking-tighter italic min-h-[1.2em]">
+    <div className="h-[100dvh] sm:h-auto sm:min-h-screen overflow-hidden sm:overflow-visible bg-background flex flex-col items-center py-4 sm:py-12 px-3 sm:px-6 relative">
+      <header className="w-full max-w-[95vw] lg:max-w-7xl mb-4 sm:mb-12 flex flex-col items-center sm:items-start sm:px-12 shrink-0">
+        <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.5em] font-black mb-1 sm:mb-2 opacity-30">Writing Room</span>
+        <h1 className="font-code text-4xl sm:text-6xl md:text-8xl text-ink lowercase tracking-tighter italic min-h-[1.2em]">
            {titleDisplay}
            {!titleDone && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.8em] bg-accent ml-2 align-middle" />}
         </h1>
       </header>
 
-      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-[95vw] lg:max-w-7xl bg-white p-6 sm:p-20 lg:p-28 rounded-[4rem] lg:rounded-[5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white flex flex-col min-h-[80vh] relative">
-        <div className="flex-grow flex flex-col">
-          <div className="flex items-center gap-4 mb-16 opacity-30">
-            <div className="w-20 h-[1.5px] bg-ink" />
-            <span className="text-[10px] uppercase tracking-widest font-black">Composition Area</span>
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} className="w-full flex-grow max-w-[95vw] lg:max-w-7xl bg-white p-4 sm:p-20 lg:p-28 rounded-[2rem] sm:rounded-[4rem] lg:rounded-[5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white flex flex-col min-h-0 relative">
+        <div className="flex-grow flex flex-col min-h-0">
+          <div className="flex items-center gap-4 mb-4 sm:mb-16 opacity-30 shrink-0">
+            <div className="w-12 sm:w-20 h-[1.5px] bg-ink" />
+            <span className="text-[8px] sm:text-[10px] uppercase tracking-widest font-black">Composition Area</span>
           </div>
           
-          <div className="relative flex-grow flex flex-col">
+          <div className="relative flex-grow flex flex-col overflow-y-auto custom-scrollbar">
             <textarea
               required={!voice}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="" 
-              className="w-full flex-grow bg-transparent border-none focus:ring-0 focus:outline-none text-2xl sm:text-6xl font-code text-transparent caret-accent resize-none leading-tight custom-scrollbar"
+              className="w-full flex-grow bg-transparent border-none focus:ring-0 focus:outline-none text-2xl sm:text-6xl font-code text-transparent caret-accent resize-none leading-tight"
             />
             
             {/* Typewriter Overlay for Content and Placeholder */}
@@ -214,36 +214,39 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           </div>
         </div>
 
-        <div className="mt-16 pt-16 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-16">
-          <div className="flex items-center gap-12">
-            <div className="flex items-center gap-8">
+        <div className="mt-4 sm:mt-16 pt-4 sm:pt-16 border-t border-neutral-100 flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-16 shrink-0">
+          <div className="flex flex-row items-center justify-between lg:justify-start gap-2 sm:gap-12 w-full lg:w-auto">
+            <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               <button 
                 onClick={() => fileInputRef.current.click()} 
-                className={`flex items-center gap-4 py-4 px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}
+                className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}
               >
-                <Camera className="w-6 h-6" />
-                <span className="text-[11px] uppercase font-black tracking-widest">{photo ? 'Photo Attached' : 'Add Image'}</span>
+                <Camera className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
+                <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{photo ? 'Photo Attached' : 'Add Image'}</span>
+                <span className="text-[9px] uppercase font-black tracking-widest sm:hidden">{photo ? 'Attached' : 'Photo'}</span>
                 <input type="file" ref={fileInputRef} onChange={handlePhotoUpload} className="hidden" accept="image/*" />
               </button>
-              {photo && <button onClick={() => setPhoto(null)} className="text-red-300 hover:text-red-500 hover:scale-110 transition-all"><X className="w-6 h-6" /></button>}
+              {photo && <button onClick={() => setPhoto(null)} className="text-red-300 hover:text-red-500 hover:scale-110 transition-all shrink-0"><X className="w-4 h-4 sm:w-6 sm:h-6" /></button>}
             </div>
 
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               {!isRecording ? (
-                <button onClick={voice ? undefined : startRecording} className={`flex items-center gap-4 py-4 px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}>
-                  <Mic className="w-6 h-6" />
-                  <span className="text-[11px] uppercase font-black tracking-widest">{voice ? 'Voice Captured' : 'Record Voice'}</span>
+                <button onClick={voice ? undefined : startRecording} className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}>
+                  <Mic className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
+                  <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{voice ? 'Voice Captured' : 'Record Voice'}</span>
+                  <span className="text-[9px] uppercase font-black tracking-widest sm:hidden">{voice ? 'Captured' : 'Voice'}</span>
                 </button>
               ) : (
-                <button onClick={stopRecording} className="flex items-center gap-4 py-4 px-8 rounded-full bg-red-500 text-white animate-pulse shadow-xl shadow-red-500/30">
-                  <Square className="w-6 h-6" />
-                  <span className="text-[11px] uppercase font-black tracking-widest">End Capture</span>
+                <button onClick={stopRecording} className="flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full bg-red-500 text-white animate-pulse shadow-xl shadow-red-500/30">
+                  <Square className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
+                  <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">End Capture</span>
+                  <span className="text-[9px] uppercase font-black tracking-widest sm:hidden">Stop</span>
                 </button>
               )}
               {voice && (
-                <div className="flex items-center gap-6">
-                  <button onClick={() => new Audio(voice).play()} className="text-[11px] uppercase font-black text-accent hover:underline tracking-widest">Preview</button>
-                  <button onClick={deleteVoice} className="text-red-300 hover:text-red-500 hover:scale-110 transition-all"><Trash2 className="w-6 h-6" /></button>
+                <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+                  <button onClick={() => new Audio(voice).play()} className="text-[9px] sm:text-[11px] uppercase font-black text-accent hover:underline tracking-widest hidden sm:inline">Preview</button>
+                  <button onClick={deleteVoice} className="text-red-300 hover:text-red-500 hover:scale-110 transition-all shrink-0"><Trash2 className="w-4 h-4 sm:w-6 sm:h-6" /></button>
                 </div>
               )}
             </div>
@@ -252,19 +255,19 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || (!message.trim() && !voice)}
-            className={`px-20 py-7 rounded-full font-code text-[15px] uppercase tracking-[0.5em] font-black transition-all shadow-2xl flex items-center gap-5 ${
+            className={`w-full lg:w-auto px-6 sm:px-20 py-4 sm:py-7 rounded-full font-code text-[12px] sm:text-[15px] uppercase tracking-[0.3em] sm:tracking-[0.5em] font-black transition-all shadow-xl flex items-center justify-center gap-3 sm:gap-5 ${
               isSubmitting || (!message.trim() && !voice) 
                 ? 'bg-neutral-100 text-neutral-200 cursor-not-allowed' 
-                : 'bg-zinc-950 text-white hover:bg-accent ring-[10px] ring-transparent hover:ring-accent/10 active:scale-[0.98]'
+                : 'bg-zinc-950 text-white hover:bg-accent ring-[6px] sm:ring-[10px] ring-transparent hover:ring-accent/10 active:scale-[0.98]'
             }`}
           >
-            {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : null}
+            {isSubmitting && <Loader2 className="w-4 h-4 sm:w-6 sm:h-6 animate-spin" />}
             {isSubmitting ? 'Syncing...' : 'add my story'}
           </button>
         </div>
       </motion.div>
 
-      <button onClick={onSignOut} className="mt-16 text-[10px] uppercase tracking-[0.6em] text-neutral-300 hover:text-ink font-black bg-white/50 backdrop-blur-md px-10 py-5 rounded-full border border-neutral-100 transition-all">Relinquish control</button>
+      <button onClick={onSignOut} className="mt-4 sm:mt-16 text-[8px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.6em] text-neutral-300 hover:text-ink font-black bg-white/50 backdrop-blur-md px-6 sm:px-10 py-3 sm:py-5 rounded-full border border-neutral-100 transition-all shrink-0 z-10">Relinquish control</button>
     </div>
   );
 };

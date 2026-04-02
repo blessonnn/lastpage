@@ -39,9 +39,9 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="w-full max-w-xl text-center"
+        className="w-full max-w-xl text-center px-4"
       >
-        <h2 className="font-serif text-5xl sm:text-7xl text-ink mb-16 flex justify-center items-center">
+        <h2 className="font-serif text-4xl sm:text-7xl text-ink mb-12 sm:mb-16 flex justify-center items-center">
             <span className="relative">
               {displayText}
               <motion.span
@@ -60,7 +60,7 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-transparent py-4 text-center font-serif text-4xl focus:outline-none transition-colors placeholder:text-neutral-100 relative z-10"
+              className="w-full bg-transparent py-4 text-center font-serif text-3xl sm:text-4xl focus:outline-none transition-colors placeholder:text-neutral-100 relative z-10"
               placeholder="First name"
             />
             <motion.div
@@ -78,7 +78,7 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
             transition={{ delay: 1.5 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="px-16 py-6 bg-zinc-950 text-white font-sans text-[11px] uppercase tracking-[0.4em] font-black hover:bg-accent transition-all shadow-2xl rounded-full"
+            className="w-full sm:w-auto px-10 sm:px-16 py-4 sm:py-6 bg-zinc-950 text-white font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] font-black hover:bg-accent transition-all shadow-2xl rounded-full"
           >
             Enter the book
           </motion.button>
