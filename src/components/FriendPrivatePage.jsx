@@ -267,7 +267,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         </div>
       </motion.div>
 
-      <button onClick={onSignOut} className="mt-4 sm:mt-16 text-[8px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.6em] text-neutral-300 hover:text-ink font-black bg-white/50 backdrop-blur-md px-6 sm:px-10 py-3 sm:py-5 rounded-full border border-neutral-100 transition-all shrink-0 z-10">Relinquish control</button>
+      <button onClick={onSignOut} className="mt-4 sm:mt-16 text-[8px] sm:text-[10px] uppercase tracking-[0.4em] sm:tracking-[0.6em] text-neutral-300 hover:text-ink font-black bg-white/50 backdrop-blur-md px-6 sm:px-10 py-3 sm:py-5 rounded-full border border-neutral-100 transition-all shrink-0 z-10">Front page</button>
     </div>
   );
 };
