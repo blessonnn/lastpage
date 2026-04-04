@@ -5,6 +5,7 @@ import PhotoConstellation from './PhotoConstellation';
 
 const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
   const [count, setCount] = useState(0);
+  const [isFriendClicked, setIsFriendClicked] = useState(false);
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -81,16 +82,31 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             }}
             className="flex flex-col items-center w-full"
           >
-            <motion.button
-              whileHover={{ y: -4, scale: 1.02, backgroundColor: "rgba(255,255,255,0.05)" }}
-              whileTap={{ y: 2, scale: 0.98, backgroundColor: "#000000", color: "#ffffff" }}
-              onClick={onSelectFriend}
-              className="group relative px-10 py-3 rounded-full border border-white/20 transition-all duration-500 hover:border-white/40 overflow-hidden"
+            <button
+              onClick={() => {
+                setIsFriendClicked(true);
+                setTimeout(onSelectFriend, 500);
+              }}
+              className={`group relative px-10 py-3 rounded-full border transition-all duration-500 overflow-hidden ${
+                isFriendClicked 
+                  ? 'border-transparent translate-y-1 scale-[0.98]' 
+                  : 'border-white/20 hover:border-white/40 hover:-translate-y-1 hover:scale-[1.02]'
+              }`}
             >
-              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span className="relative z-10 font-sans text-base font-medium text-white tracking-widest uppercase">I'm a friend</span>
-              <div className="text-[9px] uppercase tracking-[0.2em] text-white/40 group-hover:text-white/60 font-semibold mt-0.5 transition-colors duration-500">Enter the book</div>
-            </motion.button>
+              <div 
+                className={`absolute bottom-0 left-0 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0 ${
+                  isFriendClicked ? 'h-full bg-white' : 'h-0 bg-white'
+                }`} 
+              />
+              <div className="relative z-10 flex flex-col items-center">
+                <span className={`font-sans text-base font-medium tracking-widest uppercase transition-colors duration-500 ${
+                  isFriendClicked ? 'text-black' : 'text-white'
+                }`}>I'm a friend</span>
+                <div className={`text-[9px] uppercase tracking-[0.2em] font-semibold mt-0.5 transition-colors duration-500 ${
+                  isFriendClicked ? 'text-black/60' : 'text-white/40 group-hover:text-white/60'
+                }`}>Enter the book</div>
+              </div>
+            </button>
           </motion.div>
 
           <motion.div 
