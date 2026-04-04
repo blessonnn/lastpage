@@ -28,7 +28,7 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
     e.preventDefault();
     if (name.trim()) {
       setIsClicked(true);
-      setTimeout(() => onEnter(name.trim()), 250);
+      setTimeout(() => onEnter(name.trim()), 500);
     } else {
       setShowError(true);
       setTimeout(() => setShowError(false), 3000);

@@ -7,13 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#F9F6F0',
+        background: 'var(--background)',
         ink: {
-          DEFAULT: '#1A1A1A',
-          muted: '#4A4A4A',
+          DEFAULT: 'var(--ink)',
+          muted: 'var(--ink-muted)',
         },
-        accent: '#C9826B',
-        gold: '#C4A25D',
+        accent: 'rgb(var(--accent-rgb) / <alpha-value>)',
+        gold: 'var(--gold)',
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'serif'],

@@ -21,19 +21,29 @@
 :root {
   --background: #F9F6F0;
   --ink: #1A1A1A;
+  --ink-muted: #4A4A4A;
   --accent: #C9826B;
-  --accent-rgb: 201, 130, 107;
+  --accent-rgb: 201 130 107;
   --gold: #C4A25D;
   background-color: var(--background);
   color: var(--ink);
   scroll-behavior: smooth;
 }
 
+.theme-megha {
+  --background: #FFE9EF;
+  --ink: #1A1A1A;
+  --ink-muted: #FFBCCD;
+  --accent: #FC809F;
+  --accent-rgb: 252 128 159;
+}
+
 body {
   @apply font-sans antialiased overflow-x-hidden;
-  background-color: #F9F6F0;
+  background-color: var(--background);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   background-blend-mode: overlay;
+  transition: background-color 0.8s ease;
 }
 
 .font-handwriting {

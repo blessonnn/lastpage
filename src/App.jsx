@@ -16,12 +16,27 @@ import AdminLoginModal from './components/AdminLoginModal';
 import FriendPrivatePage from './components/FriendPrivatePage';
 import AdminDashboard from './components/AdminDashboard';
 import LoadingScreen from './components/LoadingScreen';
+import AyshaScreen from './components/AyshaScreen';
+import MeghaScreen from './components/MeghaScreen';
 
 function App() {
   const [view, setView] = useState('gate'); // 'gate', 'friend_entry', 'admin_modal', 'friend_page', 'admin_dashboard'
   const [friendSession, setFriendSession] = useState(getFriendSession());
   const [adminSession, setAdminSessionState] = useState(getAdminSession());
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useEffect(() => {
+    if (friendSession?.name) {
+      const nameL = friendSession.name.toLowerCase();
+      if (nameL.includes('megha')) {
+        document.documentElement.classList.add('theme-megha');
+      } else {
+        document.documentElement.classList.remove('theme-megha');
+      }
+    } else {
+      document.documentElement.classList.remove('theme-megha');
+    }
+  }, [friendSession]);
 
   // App is now controlled by LoadingScreen onComplete callback
 
@@ -33,7 +48,24 @@ function App() {
     const newSession = { name, submitted: false, draft_message: '', draft_photo: null };
     saveFriendSession(newSession);
     setFriendSession(newSession);
-    setView('friend_page');
+
+    const nameL = name.toLowerCase();
+    const isAysha = nameL.includes('aysha') || nameL === 'aysha saheera';
+    const isMegha = nameL.includes('megha');
+
+    if (isMegha) {
+      document.documentElement.classList.add('theme-megha');
+    } else {
+      document.documentElement.classList.remove('theme-megha');
+    }
+
+    if (isAysha) {
+      setView('aysha_screen');
+    } else if (isMegha) {
+      setView('megha_screen');
+    } else {
+      setView('friend_page');
+    }
   };
 
   const handleAdminLogin = () => {
@@ -108,6 +140,28 @@ function App() {
                     onBack={() => setView('gate')} 
                     onEnter={handleEnterName} 
                   />
+                </motion.div>
+              )}
+
+              {view === 'aysha_screen' && (
+                <motion.div
+                  key="aysha_screen"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <AyshaScreen onContinue={() => setView('friend_page')} />
+                </motion.div>
+              )}
+
+              {view === 'megha_screen' && (
+                <motion.div
+                  key="megha_screen"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <MeghaScreen onContinue={() => setView('friend_page')} />
                 </motion.div>
               )}
 

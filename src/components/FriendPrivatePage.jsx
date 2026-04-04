@@ -26,14 +26,35 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const isSpecialName = ['gopi', 'gopikrishna', 'akshara'].includes(nameLower);
   const isAswin = nameLower.includes('aswin') || nameLower.includes('ashwin');
   const isSreelakshmi = nameLower.includes('sreelakshmi') || nameLower.includes('sree');
+  const isAbhijithJR = nameLower.includes('abhijith j') || nameLower === 'abhijith jr';
+  const isAbhijithSV = nameLower.includes('abhijith s') || nameLower === 'abhijith sv';
+  const isAswanth = nameLower.includes('aswanth');
+  const isAmal = nameLower.includes('amal');
+  const isMishal = nameLower.includes('mishal');
+  const isAysha = nameLower.includes('aysha');
+  const isShamila = nameLower.includes('shamila');
 
   const formattedName = session.name.trim().charAt(0).toUpperCase() + session.name.trim().slice(1).toLowerCase();
 
   let placeholderPrefix = formattedName;
-  if (isAswin) {
+  if (isAbhijithJR) {
+    placeholderPrefix = "chemban";
+  } else if (isAbhijithSV) {
+    placeholderPrefix = "Bloppan";
+  } else if (isAswin) {
     placeholderPrefix = "pacha";
   } else if (isSreelakshmi) {
     placeholderPrefix = "leshman";
+  } else if (isAswanth) {
+    placeholderPrefix = "suttu";
+  } else if (isAmal) {
+    placeholderPrefix = "Allu";
+  } else if (isMishal) {
+    placeholderPrefix = "Goat";
+  } else if (isAysha) {
+    placeholderPrefix = "SGPA 10";
+  } else if (isShamila) {
+    placeholderPrefix = "chamala";
   } else if (isSpecialName) {
     placeholderPrefix = "Hey, Rep";
   }
@@ -189,7 +210,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
     <div className="h-[100dvh] sm:h-auto sm:min-h-screen overflow-hidden sm:overflow-visible bg-background flex flex-col items-center py-4 sm:py-12 px-3 sm:px-6 relative">
       <header className="w-full max-w-[95vw] lg:max-w-7xl mb-4 sm:mb-12 flex flex-col items-center sm:items-start sm:px-12 shrink-0">
         <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.5em] font-black mb-1 sm:mb-2 opacity-30">Writing Room</span>
-        <h1 className="font-code text-4xl sm:text-6xl md:text-8xl text-ink lowercase tracking-tighter italic min-h-[1.2em]">
+        <h1 className="font-code text-4xl sm:text-6xl md:text-8xl text-ink tracking-tighter italic min-h-[1.2em]">
            {titleDisplay}
            {!titleDone && <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.8em] bg-accent ml-2 align-middle" />}
         </h1>
@@ -235,7 +256,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
             <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               <button 
                 onClick={() => fileInputRef.current.click()} 
-                className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 active:bg-accent active:text-white'}`}
+                className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 hover:text-black active:bg-accent active:text-white'}`}
               >
                 <Camera className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
                 <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{photo ? 'Photo Attached' : 'Add Image'}</span>
@@ -247,7 +268,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
 
             <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               {!isRecording ? (
-                <button onClick={voice ? undefined : startRecording} className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 active:bg-accent active:text-white'}`}>
+                <button onClick={voice ? undefined : startRecording} className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 hover:text-black active:bg-accent active:text-white'}`}>
                   <Mic className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
                   <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{voice ? 'Voice Captured' : 'Record Voice'}</span>
                   <span className="text-[9px] uppercase font-black tracking-widest sm:hidden">{voice ? 'Captured' : 'Voice'}</span>
