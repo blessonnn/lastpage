@@ -6,6 +6,7 @@ import PhotoConstellation from './PhotoConstellation';
 const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
   const [count, setCount] = useState(0);
   const [isFriendClicked, setIsFriendClicked] = useState(false);
+  const [isAdminClicked, setIsAdminClicked] = useState(false);
 
   useEffect(() => {
     const fetchCount = async () => {
@@ -127,16 +128,36 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             )}
           </motion.div>
 
-          <motion.button
+          <motion.div
             variants={{
               hidden: { opacity: 0 },
               visible: { opacity: 1, transition: { delay: 1.5 } }
             }}
-            onClick={onSelectAdmin}
-            className="mt-12 text-[8px] uppercase tracking-[0.4em] text-white/20 hover:text-white/60 transition-colors font-sans py-2"
+            className="mt-12 flex justify-center w-full"
           >
-            Admin Access
-          </motion.button>
+            <button
+              onClick={() => {
+                setIsAdminClicked(true);
+                setTimeout(onSelectAdmin, 300);
+              }}
+              className={`group relative px-6 py-3 rounded-full border transition-all duration-500 overflow-hidden ${
+                isAdminClicked 
+                  ? 'border-transparent translate-y-1 scale-[0.98]' 
+                  : 'border-white/10 hover:border-white/30 hover:-translate-y-1 hover:scale-[1.02]'
+              }`}
+            >
+              <div 
+                className={`absolute bottom-0 left-0 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0 ${
+                  isAdminClicked ? 'h-full bg-white' : 'h-0 bg-white'
+                }`} 
+              />
+              <div className="relative z-10 flex flex-col items-center">
+                <span className={`font-sans text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${
+                  isAdminClicked ? 'text-black' : 'text-white/40 group-hover:text-white/80'
+                }`}>Admin Login</span>
+              </div>
+            </button>
+          </motion.div>
         </div>
       </motion.div>
     </section>
