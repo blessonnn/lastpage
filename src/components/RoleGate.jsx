@@ -90,7 +90,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             <button
               onClick={() => {
                 setIsFriendClicked(true);
-                setTimeout(onSelectFriend, 250);
+                setTimeout(onSelectFriend, 500);
               }}
               className={`group relative px-10 py-3 rounded-full border transition-all duration-500 overflow-hidden ${
                 isFriendClicked 
@@ -103,12 +103,25 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                   isFriendClicked ? 'h-full bg-white' : 'h-0 bg-white'
                 }`} 
               />
-              <div className="relative z-10 flex flex-col items-center">
-                <span className={`font-sans text-base font-medium tracking-widest uppercase transition-colors duration-500 ${
-                  isFriendClicked ? 'text-black' : 'text-white'
-                }`}>I'm a friend</span>
-                <div className={`text-[9px] uppercase tracking-[0.2em] font-semibold mt-0.5 transition-colors duration-500 ${
-                  isFriendClicked ? 'text-black/60' : 'text-white/40 group-hover:text-white/60'
+              <div className="relative z-10 flex flex-col items-center justify-center w-full">
+                <span className="relative z-20 font-sans text-base font-medium tracking-widest uppercase flex">
+                  {"I'm a friend".split('').map((char, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 1, y: 0 }}
+                      animate={
+                        isFriendClicked 
+                          ? { opacity: 0, y: -30, filter: 'blur(5px)', transition: { duration: 0.3, delay: 0.2 + i * 0.02, ease: 'easeIn' } }
+                          : { opacity: 1, y: 0 }
+                      }
+                      className={`inline-block whitespace-pre transition-colors duration-300 ${isFriendClicked ? 'text-black' : 'text-white'}`}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+                <div className={`relative z-10 text-[9px] uppercase tracking-[0.2em] font-semibold transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isFriendClicked ? 'opacity-0 -translate-y-6 text-black/60' : 'opacity-100 mt-0.5 translate-y-0 text-white/40 group-hover:text-white/60'
                 }`}>Enter the book</div>
               </div>
             </button>
@@ -138,7 +151,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             <button
               onClick={() => {
                 setIsAdminClicked(true);
-                setTimeout(onSelectAdmin, 300);
+                setTimeout(onSelectAdmin, 500);
               }}
               className={`group relative px-6 py-3 rounded-full border transition-all duration-500 overflow-hidden ${
                 isAdminClicked 
@@ -151,10 +164,23 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
                   isAdminClicked ? 'h-full bg-white' : 'h-0 bg-white'
                 }`} 
               />
-              <div className="relative z-10 flex flex-col items-center">
-                <span className={`font-sans text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${
-                  isAdminClicked ? 'text-black' : 'text-white/40 group-hover:text-white/80'
-                }`}>Admin Login</span>
+              <div className="relative z-10 flex flex-col items-center justify-center w-full">
+                <span className="relative z-20 font-sans text-[9px] font-bold tracking-widest uppercase flex">
+                  {"Admin Login".split('').map((char, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 1, y: 0 }}
+                      animate={
+                        isAdminClicked 
+                          ? { opacity: 0, y: -30, filter: 'blur(5px)', transition: { duration: 0.3, delay: 0.2 + i * 0.02, ease: 'easeIn' } }
+                          : { opacity: 1, y: 0 }
+                      }
+                      className={`inline-block whitespace-pre transition-colors duration-300 ${isAdminClicked ? 'text-black' : 'text-white/40 group-hover:text-white/80'}`}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
               </div>
             </button>
           </motion.div>
