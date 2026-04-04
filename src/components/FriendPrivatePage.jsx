@@ -22,8 +22,11 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [placeholderDisplay, setPlaceholderDisplay] = useState("");
   const [placeholderDone, setPlaceholderDone] = useState(false);
 
+  const nameLower = session.name.trim().toLowerCase();
+  const isSpecialName = ['gopi', 'gopikrishna', 'akshara'].includes(nameLower);
+  
   const fullTitle = `${session.name}'s page`;
-  const fullPlaceholder = `${session.name}e, write something .. `;
+  const fullPlaceholder = `${isSpecialName ? 'Hey, Rep' : session.name}, write something .. `;
 
   const fileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
