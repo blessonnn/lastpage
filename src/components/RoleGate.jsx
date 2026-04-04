@@ -49,19 +49,23 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
           </motion.span>
           
           <motion.div 
-            variants={{
-              hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-              visible: { 
-                opacity: 1, 
-                y: 0, 
-                filter: 'blur(0px)',
-                transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } 
-              }
-            }}
-            className="flex justify-center mb-3 w-full"
+            className="flex justify-center mb-0 w-full"
           >
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl text-white leading-[0.9] -tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
-              Lastpage
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl text-white leading-[0.9] -tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex overflow-hidden py-4">
+              {"Lastpage".split('').map((letter, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+                  animate={
+                    isFriendClicked
+                      ? { opacity: 0, y: -50, filter: 'blur(10px)', transition: { duration: 0.3, delay: i * 0.03, ease: 'easeIn' } }
+                      : { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1.0, delay: i * 0.05 + 0.2, ease: [0.22, 1, 0.36, 1] } }
+                  }
+                  className="inline-block"
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </h1>
           </motion.div>
           
@@ -85,7 +89,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
             <button
               onClick={() => {
                 setIsFriendClicked(true);
-                setTimeout(onSelectFriend, 500);
+                setTimeout(onSelectFriend, 250);
               }}
               className={`group relative px-10 py-3 rounded-full border transition-all duration-500 overflow-hidden ${
                 isFriendClicked 
