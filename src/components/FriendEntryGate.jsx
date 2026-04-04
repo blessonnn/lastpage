@@ -7,6 +7,7 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const fullText = "What's your name?";
 
   useEffect(() => {
@@ -26,7 +27,8 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
-      onEnter(name.trim());
+      setIsClicked(true);
+      setTimeout(() => onEnter(name.trim()), 250);
     } else {
       setShowError(true);
       setTimeout(() => setShowError(false), 3000);
@@ -60,11 +62,19 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
         animate={{ opacity: 1 }}
         className="w-full max-w-xl text-center px-4"
       >
-        <h2 className="font-serif text-4xl sm:text-7xl text-ink mb-12 sm:mb-16 flex justify-center items-center">
-            <span className="relative">
-              {displayText}
+        <h2 className="font-serif text-4xl sm:text-7xl text-ink mb-12 sm:mb-16 flex justify-center items-center py-2">
+            <span className="relative flex whitespace-pre">
+              {displayText.split('').map((char, i) => (
+                <motion.span
+                  key={i}
+                  animate={isClicked ? { opacity: 0, y: -50, filter: 'blur(10px)', transition: { duration: 0.3, delay: i * 0.03, ease: 'easeIn' } } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  className="inline-block"
+                >
+                  {char}
+                </motion.span>
+              ))}
               <motion.span
-                animate={{ opacity: isTypingComplete ? [0.2, 0.1] : [1, 0, 1] }}
+                animate={isClicked ? { opacity: 0, y: -50, transition: { duration: 0.3, delay: displayText.length * 0.03, ease: 'easeIn' } } : { opacity: isTypingComplete ? [0.2, 0.1] : [1, 0, 1] }}
                 transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }}
                 className={`inline-block w-[0.1em] h-[0.9em] bg-accent ml-2 align-middle`}
               />
@@ -97,11 +107,21 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5 }}
-            whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full sm:w-auto px-10 sm:px-16 py-4 sm:py-6 bg-zinc-950 text-white font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] font-black hover:bg-accent transition-all shadow-2xl rounded-full"
+            className={`group relative overflow-hidden w-full sm:w-auto px-10 sm:px-16 py-4 sm:py-6 bg-zinc-950 font-sans text-[10px] sm:text-[11px] uppercase tracking-[0.3em] sm:tracking-[0.4em] font-black transition-all shadow-2xl rounded-full border border-transparent ${
+              isClicked 
+                ? 'translate-y-1 scale-[0.98] shadow-none' 
+                : 'hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.4)]'
+            }`}
           >
-            Enter the book
+            <div 
+              className={`absolute bottom-0 left-0 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0 ${
+                isClicked ? 'h-full bg-white' : 'h-0 bg-white'
+              }`} 
+            />
+            <span className={`relative z-10 transition-colors duration-500 ${isClicked ? 'text-black' : 'text-white'}`}>
+              Enter the book
+            </span>
           </motion.button>
         </form>
       </motion.div>

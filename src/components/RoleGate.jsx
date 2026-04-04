@@ -51,7 +51,7 @@ const RoleGate = ({ onSelectFriend, onSelectAdmin }) => {
           <motion.div 
             className="flex justify-center mb-0 w-full"
           >
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl text-white leading-[0.9] -tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex overflow-hidden py-4">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl text-white leading-[0.9] -tracking-tight drop-shadow-[0_0_30px_rgba(255,255,255,0.15)] flex py-4">
               {"Lastpage".split('').map((letter, i) => (
                 <motion.span
                   key={i}
