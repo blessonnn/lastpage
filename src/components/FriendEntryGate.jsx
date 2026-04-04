@@ -39,15 +39,30 @@ const FriendEntryGate = ({ onBack, onEnter }) => {
     <section className="min-h-screen flex flex-col justify-center items-center px-4 bg-background paper-grain">
       <AnimatePresence>
         {showError && (
-          <motion.div
-            initial={{ opacity: 0, y: -30, scale: 0.9, x: "-50%" }}
-            animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
-            exit={{ opacity: 0, y: -20, scale: 0.9, x: "-50%" }}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="fixed top-12 left-1/2 z-50 flex items-center justify-center px-6 py-3 bg-zinc-900/90 backdrop-blur-xl border border-white/10 text-white rounded-full shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] pointer-events-none"
-          >
-            <span className="text-[13px] font-sans font-medium tracking-wide">Please enter your name</span>
-          </motion.div>
+          <div className="fixed top-12 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex justify-start items-center w-[220px] h-[40px]">
+            <motion.div
+              initial={{ scale: 0, width: "40px" }}
+              animate={{ scale: 1, width: "220px" }}
+              exit={{ scale: 0, opacity: 0, transition: { duration: 0.2 } }}
+              transition={{
+                scale: { type: "spring", stiffness: 600, damping: 25 },
+                width: { delay: 0.2, type: "spring", stiffness: 450, damping: 25 }
+              }}
+              style={{ originX: 0.5, originY: 0.5 }}
+              className="bg-accent rounded-full h-[40px] overflow-hidden flex items-center shadow-[0_10px_30px_-5px_rgba(204,85,0,0.5)] absolute left-0"
+            >
+              <div className="min-w-[220px] h-full flex items-center justify-center">
+                <motion.span 
+                  initial={{ opacity: 0, filter: "blur(2px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  transition={{ delay: 0.3, duration: 0.2 }}
+                  className="text-[12px] font-sans font-medium tracking-[0.05em] text-white whitespace-nowrap"
+                >
+                  Please enter your name
+                </motion.span>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
       <button 
