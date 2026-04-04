@@ -24,9 +24,22 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
 
   const nameLower = session.name.trim().toLowerCase();
   const isSpecialName = ['gopi', 'gopikrishna', 'akshara'].includes(nameLower);
+  const isAswin = nameLower.includes('aswin') || nameLower.includes('ashwin');
+  const isSreelakshmi = nameLower.includes('sreelakshmi') || nameLower.includes('sree');
+
+  const formattedName = session.name.trim().charAt(0).toUpperCase() + session.name.trim().slice(1).toLowerCase();
+
+  let placeholderPrefix = formattedName;
+  if (isAswin) {
+    placeholderPrefix = "pacha";
+  } else if (isSreelakshmi) {
+    placeholderPrefix = "leshman";
+  } else if (isSpecialName) {
+    placeholderPrefix = "Hey, Rep";
+  }
   
-  const fullTitle = `${session.name}'s page`;
-  const fullPlaceholder = `${isSpecialName ? 'Hey, Rep' : session.name}, write something .. `;
+  const fullTitle = `${formattedName}'s page`;
+  const fullPlaceholder = `${placeholderPrefix}, write something .. `;
 
   const fileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -222,7 +235,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
             <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               <button 
                 onClick={() => fileInputRef.current.click()} 
-                className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}
+                className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${photo ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 active:bg-accent active:text-white'}`}
               >
                 <Camera className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
                 <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{photo ? 'Photo Attached' : 'Add Image'}</span>
@@ -234,7 +247,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
 
             <div className="flex items-center gap-2 sm:gap-8 min-w-0">
               {!isRecording ? (
-                <button onClick={voice ? undefined : startRecording} className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100'}`}>
+                <button onClick={voice ? undefined : startRecording} className={`flex items-center justify-center gap-2 sm:gap-4 py-3 sm:py-4 px-4 sm:px-8 rounded-full transition-all border ${voice ? 'bg-accent text-white shadow-xl shadow-accent/20' : 'bg-neutral-50 border-neutral-100 text-neutral-400 hover:border-accent hover:bg-neutral-100 active:bg-accent active:text-white'}`}>
                   <Mic className="w-4 h-4 sm:w-6 sm:h-6 shrink-0" />
                   <span className="text-[9px] sm:text-[11px] uppercase font-black tracking-widest hidden sm:inline">{voice ? 'Voice Captured' : 'Record Voice'}</span>
                   <span className="text-[9px] uppercase font-black tracking-widest sm:hidden">{voice ? 'Captured' : 'Voice'}</span>
@@ -258,14 +271,21 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || (!message.trim() && !voice)}
-            className={`w-full lg:w-auto px-6 sm:px-20 py-4 sm:py-7 rounded-full font-code text-[12px] sm:text-[15px] uppercase tracking-[0.3em] sm:tracking-[0.5em] font-black transition-all shadow-xl flex items-center justify-center gap-3 sm:gap-5 ${
+            className={`group relative overflow-hidden w-full lg:w-auto px-6 sm:px-20 py-4 sm:py-7 rounded-full font-code text-[12px] sm:text-[15px] uppercase tracking-[0.3em] sm:tracking-[0.5em] font-black transition-all shadow-xl flex items-center justify-center gap-3 sm:gap-5 ${
               isSubmitting || (!message.trim() && !voice) 
                 ? 'bg-neutral-100 text-neutral-200 cursor-not-allowed' 
                 : 'bg-zinc-950 text-white hover:bg-accent ring-[6px] sm:ring-[10px] ring-transparent hover:ring-accent/10 active:scale-[0.98]'
             }`}
           >
-            {isSubmitting && <Loader2 className="w-4 h-4 sm:w-6 sm:h-6 animate-spin" />}
-            {isSubmitting ? 'Syncing...' : 'add my story'}
+            <div className={`absolute bottom-0 left-0 w-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] z-0 ${
+              isSubmitting ? 'h-full bg-accent' : 'h-0 bg-accent'
+            }`} />
+            <span className="relative z-10 flex flex-row items-center justify-center gap-3">
+              {isSubmitting && <Loader2 className="w-4 h-4 sm:w-6 sm:h-6 animate-spin text-white" />}
+              <span className={`transition-colors ${isSubmitting ? 'text-white' : ''}`}>
+                {isSubmitting ? 'Syncing...' : 'add my story'}
+              </span>
+            </span>
           </button>
         </div>
       </motion.div>
