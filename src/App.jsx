@@ -26,17 +26,21 @@ function App() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    if (friendSession?.name) {
-      const nameL = friendSession.name.toLowerCase();
-      if (nameL.includes('megha')) {
-        document.documentElement.classList.add('theme-megha');
+    if (view === 'megha_screen' || view === 'friend_page') {
+      if (friendSession?.name) {
+        const nameL = friendSession.name.toLowerCase();
+        if (nameL.includes('megha')) {
+          document.documentElement.classList.add('theme-megha');
+        } else {
+          document.documentElement.classList.remove('theme-megha');
+        }
       } else {
         document.documentElement.classList.remove('theme-megha');
       }
     } else {
       document.documentElement.classList.remove('theme-megha');
     }
-  }, [friendSession]);
+  }, [friendSession, view]);
 
   // App is now controlled by LoadingScreen onComplete callback
 
