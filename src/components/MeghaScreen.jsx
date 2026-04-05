@@ -1,6 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+const SoundWave = () => {
+  return (
+    <div className="absolute inset-0 flex items-center justify-around px-4 pointer-events-none opacity-20 overflow-hidden">
+      {[...Array(60)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ height: "20%", opacity: 0.3 }}
+          animate={{ 
+            height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 60 + 10}%`, `${Math.random() * 40 + 20}%`],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{ 
+            duration: Math.random() * 1.5 + 1, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          className="w-1 sm:w-2 bg-accent rounded-full mx-0.5"
+        />
+      ))}
+    </div>
+  );
+};
+
 const MeghaScreen = ({ onContinue }) => {
   const fullText = `To my dearest,
 
@@ -18,9 +41,6 @@ I love you, forever and always.`;
   const [isDone, setIsDone] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
-  const [showPrompt, setShowPrompt] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
@@ -34,16 +54,6 @@ I love you, forever and always.`;
     }, 15); // Faster typewriter because of long text
     return () => clearInterval(interval);
   }, [fullText]);
-
-  const handleScroll = (e) => {
-    const currentScrollY = e.target.scrollTop;
-    if (currentScrollY > lastScrollY && currentScrollY > 20) {
-      setShowPrompt(false);
-    } else {
-      setShowPrompt(true);
-    }
-    setLastScrollY(currentScrollY);
-  };
 
   const renderText = () => {
     if (!isDone) return displayText;
@@ -71,9 +81,11 @@ I love you, forever and always.`;
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative"
+      className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative overflow-hidden"
       onClick={handleContinue}
     >
+      <SoundWave />
+      
       <motion.div 
         layout
         initial={{ y: 40, opacity: 0, borderRadius: "3rem" }}
@@ -87,7 +99,6 @@ I love you, forever and always.`;
       >
         <div 
           className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative"
-          onScroll={handleScroll}
         >
           <div className="p-8 sm:p-16 md:p-24 min-h-full flex flex-col items-center justify-center">
             <motion.div 
@@ -112,8 +123,9 @@ I love you, forever and always.`;
       </motion.div>
       {isDone && !isExiting && (
         <motion.div 
-          animate={{ y: showPrompt ? 0 : 100, opacity: showPrompt ? 0.4 : 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.4 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 1 }}
           className="absolute bottom-6 sm:bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-ink flex items-center justify-center z-20"
         >
           Click anywhere to continue

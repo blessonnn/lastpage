@@ -20,16 +20,6 @@ const AyshaScreen = ({ onContinue }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleScroll = (e) => {
-    const currentScrollY = e.target.scrollTop;
-    if (currentScrollY > lastScrollY && currentScrollY > 20) {
-      setShowPrompt(false);
-    } else {
-      setShowPrompt(true);
-    }
-    setLastScrollY(currentScrollY);
-  };
-
   const renderText = () => {
     if (!isDone) return displayText;
     const parts = fullText.split("Massive congratulations");
@@ -72,7 +62,6 @@ const AyshaScreen = ({ onContinue }) => {
       >
         <div 
           className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-          onScroll={handleScroll}
         >
           <div className="p-8 sm:p-16 md:p-24 min-h-full flex flex-col items-center justify-center">
             <motion.div 
@@ -97,8 +86,9 @@ const AyshaScreen = ({ onContinue }) => {
       </motion.div>
       {isDone && !isExiting && (
         <motion.div 
-          animate={{ y: showPrompt ? 0 : 100, opacity: showPrompt ? 0.4 : 0 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.4 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 1 }}
           className="absolute bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-ink flex items-center justify-center"
         >
           Click anywhere to continue
