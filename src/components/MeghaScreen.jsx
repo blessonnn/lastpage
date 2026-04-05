@@ -90,7 +90,12 @@ I love you, forever and always.`;
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative overflow-hidden"
+      style={{ 
+        backgroundImage: "url('/wallpaper/wallpaper.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}
       onClick={handleContinue}
     >
       <PureWave />
@@ -101,13 +106,13 @@ I love you, forever and always.`;
         animate={
           isExiting 
             ? { y: 0, opacity: 1, width: "100%", height: "100%", maxWidth: "100%", borderRadius: "0px" } 
-            : { y: 0, opacity: 1, width: "100%", height: "75dvh", maxWidth: "56rem", borderRadius: "3rem" }
+            : { y: 0, opacity: 1, width: "min(90vw, 42rem)", height: "min(85dvh, 42rem)", maxWidth: "42rem", borderRadius: "5rem" }
         }
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-black shadow-2xl relative overflow-hidden z-10 flex flex-col border border-white/5"
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="bg-black/5 backdrop-blur-xl shadow-2xl relative overflow-hidden z-10 flex flex-col border border-white/10 aspect-square sm:aspect-auto"
       >
         <div 
-          className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative"
+          className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative custom-scrollbar scroll-smooth"
         >
           <div className="p-8 sm:p-16 md:p-24 min-h-full flex flex-col items-center justify-center">
             <motion.div 
@@ -127,8 +132,8 @@ I love you, forever and always.`;
           </div>
         </div>
 
-        {/* Intense Black Linear Gradient Overlay (No blur) */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none transition-opacity duration-500 z-[5]" style={{ opacity: isExiting ? 0 : 1 }} />
+        {/* Subtle Black Linear Gradient Overlay (No blur) */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/40 via-black/20 to-transparent pointer-events-none transition-opacity duration-500 z-[5]" style={{ opacity: isExiting ? 0 : 1 }} />
       </motion.div>
       {isDone && !isExiting && (
         <motion.div 

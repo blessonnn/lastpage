@@ -19,6 +19,7 @@ import LoadingScreen from './components/LoadingScreen';
 import AyshaScreen from './components/AyshaScreen';
 import MeghaScreen from './components/MeghaScreen';
 import ChithiraScreen from './components/ChithiraScreen';
+import ChembanScreen from './components/ChembanScreen';
 
 function App() {
   const [view, setView] = useState('gate'); // 'gate', 'friend_entry', 'admin_modal', 'friend_page', 'admin_dashboard'
@@ -58,6 +59,7 @@ function App() {
     const isAysha = nameL.includes('aysha') || nameL === 'aysha saheera';
     const isMegha = nameL.includes('megha');
     const isChithira = nameL.includes('chithira');
+    const isChemban = nameL.includes('abhijith j') || nameL === 'abhijith jr';
 
     if (isMegha) {
       document.documentElement.classList.add('theme-megha');
@@ -71,6 +73,8 @@ function App() {
       setView('megha_screen');
     } else if (isChithira) {
       setView('chithira_screen');
+    } else if (isChemban) {
+      setView('chemban_screen');
     } else {
       setView('friend_page');
     }
@@ -182,6 +186,20 @@ function App() {
                 >
                   <ChithiraScreen onContinue={() => setView('friend_page')} />
                 </motion.div>
+              )}
+
+              {view === 'chemban_screen' && (
+                <>
+                  <ChembanScreen onComplete={() => setView('friend_page')} />
+                  {/* Pre-render dashboard underneath for smooth reveal */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="min-h-screen"
+                  >
+                    <FriendPrivatePage session={friendSession} onSignOut={handleSignOutFriend} />
+                  </motion.div>
+                </>
               )}
 
               {view === 'friend_page' && friendSession && (

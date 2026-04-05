@@ -257,7 +257,14 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   }
 
   return (
-    <div className="h-[100dvh] sm:h-auto sm:min-h-screen overflow-hidden sm:overflow-visible bg-background flex flex-col items-center py-4 sm:py-12 px-3 sm:px-6 relative">
+    <div 
+      className={`h-[100dvh] sm:h-auto sm:min-h-screen overflow-hidden sm:overflow-visible flex flex-col items-center py-4 sm:py-12 px-3 sm:px-6 relative ${!isMegha ? 'bg-background' : ''}`}
+      style={isMegha ? { 
+        backgroundImage: "url('/wallpaper/wallpaper.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      } : {}}
+    >
       <header className="w-full max-w-[95vw] lg:max-w-7xl mb-4 sm:mb-12 flex flex-col items-center sm:items-start sm:px-12 shrink-0">
         <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.5em] font-black mb-1 sm:mb-2 opacity-30">Writing Room</span>
         <h1 className="font-code text-4xl sm:text-6xl md:text-8xl text-ink tracking-tighter italic min-h-[1.2em]">
@@ -266,7 +273,15 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         </h1>
       </header>
 
-      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} className="w-full flex-grow max-w-[95vw] lg:max-w-7xl bg-white p-4 sm:p-20 lg:p-28 rounded-[2rem] sm:rounded-[4rem] lg:rounded-[5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white flex flex-col min-h-0 relative">
+      <motion.div 
+        initial={{ opacity: 0, y: 40 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        className={`w-full flex-grow max-w-[95vw] lg:max-w-7xl p-4 sm:p-20 lg:p-28 rounded-[2rem] sm:rounded-[4rem] lg:rounded-[5rem] flex flex-col min-h-0 relative ${
+          isMegha 
+            ? 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl' 
+            : 'bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white'
+        }`}
+      >
         <div className="flex-grow flex flex-col min-h-0">
           <div className="flex items-center gap-4 mb-4 sm:mb-16 opacity-30 shrink-0">
             <div className="w-12 sm:w-20 h-[1.5px] bg-ink" />
