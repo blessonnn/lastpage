@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const AyshaScreen = ({ onContinue }) => {
-  const fullText = "History maker in the house! \uD83C\uDFC6 A perfect 10 SGPA and the first one in the college? That is a massive flex. Massive congratulations to you—you’ve officially set the bar for everyone else!";
+const ChithiraScreen = ({ onContinue }) => {
+  const fullText = "Chithira Chechi, thank you so much for being there for me. Those words of healing you gave me during my toughest days—I’ll never forget them. You took care of me just like a little brother, and I feel so lucky to call you my sister. Thank you for everything, Chechi.";
+  const [displayText, setDisplayText] = useState("");
+  const [isDone, setIsDone] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+
   const [showPrompt, setShowPrompt] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -32,11 +36,11 @@ const AyshaScreen = ({ onContinue }) => {
 
   const renderText = () => {
     if (!isDone) return displayText;
-    const parts = fullText.split("Massive congratulations");
+    const parts = fullText.split("thank you so much");
     return (
       <>
         {parts[0]}
-        <span className="text-yellow-400 font-bold italic transition-colors duration-1000">Massive congratulations</span>
+        <span className="text-accent font-bold italic transition-colors duration-1000">thank you so much</span>
         {parts[1]}
       </>
     );
@@ -56,7 +60,7 @@ const AyshaScreen = ({ onContinue }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer"
+      className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative"
       onClick={handleContinue}
     >
       <motion.div 
@@ -68,24 +72,24 @@ const AyshaScreen = ({ onContinue }) => {
             : { y: 0, opacity: 1, width: "100%", height: "75dvh", maxWidth: "56rem", borderRadius: "3rem" }
         }
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-zinc-950 shadow-2xl relative overflow-hidden z-10 flex flex-col border border-white/5"
+        className="bg-black shadow-2xl relative overflow-hidden z-10 flex flex-col border border-white/5"
       >
         <div 
-          className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] relative"
           onScroll={handleScroll}
         >
           <div className="p-8 sm:p-16 md:p-24 min-h-full flex flex-col items-center justify-center">
             <motion.div 
               animate={{ opacity: isExiting ? 0 : 1, y: isExiting ? -20 : 0 }}
               transition={{ duration: 0.3 }}
-              className="w-full text-white font-code text-2xl sm:text-4xl md:text-5xl leading-tight text-center"
+              className="w-full text-white font-code text-2xl sm:text-4xl md:text-5xl leading-tight text-center whitespace-pre-wrap"
             >
               {isDone ? renderText() : displayText}
               {!isDone && (
                 <motion.span 
                   animate={{ opacity: [1, 0, 1] }} 
                   transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} 
-                  className="inline-block w-[0.4em] h-[1em] bg-white ml-2 align-middle shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                  className="inline-block w-[0.4em] h-[1em] bg-accent ml-2 align-middle shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]"
                 />
               )}
             </motion.div>
@@ -93,13 +97,13 @@ const AyshaScreen = ({ onContinue }) => {
         </div>
 
         {/* Intensified Black Linear Gradient Overlay (No blur) */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-[5]" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none transition-opacity duration-500 z-[5]" style={{ opacity: isExiting ? 0 : 1 }} />
       </motion.div>
       {isDone && !isExiting && (
         <motion.div 
           animate={{ y: showPrompt ? 0 : 100, opacity: showPrompt ? 0.4 : 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-white flex items-center justify-center"
+          className="absolute bottom-6 sm:bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-white flex items-center justify-center z-20"
         >
           Click anywhere to continue
         </motion.div>
@@ -108,4 +112,4 @@ const AyshaScreen = ({ onContinue }) => {
   );
 };
 
-export default AyshaScreen;
+export default ChithiraScreen;

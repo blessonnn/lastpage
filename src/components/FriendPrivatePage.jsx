@@ -22,6 +22,11 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [placeholderDisplay, setPlaceholderDisplay] = useState("");
   const [placeholderDone, setPlaceholderDone] = useState(false);
 
+  // Typewriter State for Success Screen
+  const successTitleText = " Your story saved in both system and my heart";
+  const [successTitleDisplay, setSuccessTitleDisplay] = useState("");
+  const [successTitleDone, setSuccessTitleDone] = useState(false);
+
   const nameLower = session.name.trim().toLowerCase();
   const isSpecialName = ['gopi', 'gopikrishna', 'akshara'].includes(nameLower);
   const isAswin = nameLower.includes('aswin') || nameLower.includes('ashwin');
@@ -105,6 +110,24 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
       return () => clearTimeout(timer);
     }
   }, [message, photo, isSubmitted]);
+
+  useEffect(() => {
+    if (isSuccessVisible) {
+      let i = 0;
+      setSuccessTitleDisplay("");
+      setSuccessTitleDone(false);
+      const interval = setInterval(() => {
+        if (i < successTitleText.length) {
+          setSuccessTitleDisplay(successTitleText.slice(0, i + 1));
+          i++;
+        } else {
+          setSuccessTitleDone(true);
+          clearInterval(interval);
+        }
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [isSuccessVisible, successTitleText]);
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -196,7 +219,16 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
            <div className="w-24 h-24 bg-accent rounded-full flex items-center justify-center text-white mb-12 shadow-2xl">
               <Check className="w-10 h-10" />
            </div>
-           <h2 className="font-code text-5xl mb-20 lowercase tracking-tighter italic">Story preserved.</h2>
+           <h2 className="font-code text-3xl sm:text-4xl md:text-5xl mb-20 lowercase tracking-tighter italic max-w-2xl min-h-[4rem] text-center">
+             {successTitleDisplay}
+             {!successTitleDone && (
+                <motion.span 
+                  animate={{ opacity: [1, 0, 1] }} 
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} 
+                  className="inline-block w-[0.3em] h-[0.9em] bg-ink ml-1 align-middle"
+                />
+             )}
+           </h2>
            <div className="flex flex-col gap-5 w-full max-w-sm">
               <button onClick={() => setIsSuccessVisible(false)} className="w-full py-6 rounded-full border border-neutral-200 text-[12px] uppercase font-black tracking-[0.3em] text-accent hover:bg-accent/5 transition-all">Review marked story</button>
               <button onClick={() => setShowSpecialMessage(true)} className="w-full py-6 rounded-full bg-accent text-white text-[12px] uppercase font-black tracking-[0.3em] shadow-xl shadow-accent/20">From Me, To You</button>
@@ -320,6 +352,8 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
 const SpecialMessage = ({ session, onBack, onSignOut }) => {
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [showButtons, setShowButtons] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   
   const bodyText = `This has been the best chapter of my life, and I have you to thank for making it so incredible. You weren’t just a teammate or a classmate; you were my constant. I’m walking away with a degree, but I’m staying for this friendship. Let’s make sure this story never ends.`;
   const signature = "by Blesson";
@@ -339,18 +373,45 @@ const SpecialMessage = ({ session, onBack, onSignOut }) => {
     return () => clearInterval(interval);
   }, [fullText]);
 
+  const handleScroll = (e) => {
+    const currentScrollY = e.target.scrollTop;
+    if (currentScrollY > lastScrollY && currentScrollY > 20) {
+      setShowButtons(false);
+    } else {
+      setShowButtons(true);
+    }
+    setLastScrollY(currentScrollY);
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col justify-center items-center p-6 text-white overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(var(--accent-rgb),0.1)_0%,_transparent_100%)] pointer-events-none" />
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="w-full max-w-4xl bg-white/5 backdrop-blur-3xl p-12 sm:p-24 rounded-[4rem] border border-white/10 shadow-3xl relative">
-        <div className="relative font-code text-2xl sm:text-4xl leading-relaxed whitespace-pre-wrap min-h-[40vh]">
-          {displayText}
-          <motion.span animate={{ opacity: isTypingComplete ? [0.2, 0] : [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.9em] bg-accent ml-2 align-middle" />
+      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="w-full max-w-4xl h-[75dvh] max-h-[800px] bg-white/5 backdrop-blur-3xl rounded-[4rem] border border-white/10 shadow-3xl relative overflow-hidden flex flex-col">
+        
+        <div 
+          className="flex-grow w-full overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          onScroll={handleScroll}
+        >
+           <div className="min-h-full flex flex-col justify-center px-12 sm:px-24 pt-24 pb-48">
+             <div className="relative font-code text-2xl sm:text-4xl leading-relaxed whitespace-pre-wrap">
+               {displayText}
+               <motion.span animate={{ opacity: isTypingComplete ? [0.2, 0] : [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.1em] h-[0.9em] bg-accent ml-2 align-middle" />
+             </div>
+           </div>
         </div>
-        <div className="mt-20 flex items-center justify-between">
-           <button onClick={onBack} className="text-[10px] uppercase font-bold tracking-[0.5em] text-white/30 hover:text-accent transition-colors">Go Back</button>
-           <button onClick={onSignOut} className="px-10 py-5 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-[0.5em] hover:bg-white hover:text-black transition-all">Sign Out</button>
-        </div>
+           
+        {/* Intense Linear Gradient Overlay (No blur) */}
+        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-[5]" />
+
+        {/* Floating buttons pinned to the bottom */}
+        <motion.div 
+          animate={{ y: showButtons ? 0 : 100, opacity: showButtons ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute bottom-0 left-0 right-0 px-12 sm:px-24 pb-12 sm:pb-16 flex items-center justify-between z-10 pointer-events-none"
+        >
+           <button onClick={onBack} className="pointer-events-auto px-10 py-5 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-[0.5em] hover:bg-white hover:text-black transition-all bg-black/50 backdrop-blur-md shadow-2xl">Go Back</button>
+           <button onClick={onSignOut} className="pointer-events-auto px-10 py-5 rounded-full border border-white/10 text-[10px] uppercase font-bold tracking-[0.5em] hover:bg-white hover:text-black transition-all bg-black/50 backdrop-blur-md shadow-2xl">Sign Out</button>
+        </motion.div>
       </motion.div>
     </div>
   );

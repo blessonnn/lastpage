@@ -18,6 +18,7 @@ import AdminDashboard from './components/AdminDashboard';
 import LoadingScreen from './components/LoadingScreen';
 import AyshaScreen from './components/AyshaScreen';
 import MeghaScreen from './components/MeghaScreen';
+import ChithiraScreen from './components/ChithiraScreen';
 
 function App() {
   const [view, setView] = useState('gate'); // 'gate', 'friend_entry', 'admin_modal', 'friend_page', 'admin_dashboard'
@@ -56,6 +57,7 @@ function App() {
     const nameL = name.toLowerCase();
     const isAysha = nameL.includes('aysha') || nameL === 'aysha saheera';
     const isMegha = nameL.includes('megha');
+    const isChithira = nameL.includes('chithira');
 
     if (isMegha) {
       document.documentElement.classList.add('theme-megha');
@@ -67,6 +69,8 @@ function App() {
       setView('aysha_screen');
     } else if (isMegha) {
       setView('megha_screen');
+    } else if (isChithira) {
+      setView('chithira_screen');
     } else {
       setView('friend_page');
     }
@@ -166,6 +170,17 @@ function App() {
                   exit={{ opacity: 0 }}
                 >
                   <MeghaScreen onContinue={() => setView('friend_page')} />
+                </motion.div>
+              )}
+
+              {view === 'chithira_screen' && (
+                <motion.div
+                  key="chithira_screen"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <ChithiraScreen onContinue={() => setView('friend_page')} />
                 </motion.div>
               )}
 
