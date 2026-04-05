@@ -278,7 +278,7 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
         animate={{ opacity: 1, y: 0 }} 
         className={`w-full flex-grow max-w-[95vw] lg:max-w-7xl p-4 sm:p-20 lg:p-28 rounded-[2rem] sm:rounded-[4rem] lg:rounded-[5rem] flex flex-col min-h-0 relative ${
           isMegha 
-            ? 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl' 
+            ? 'bg-white/5 backdrop-blur-xl border border-white/20 shadow-2xl' 
             : 'bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.06)] border border-white'
         }`}
       >
