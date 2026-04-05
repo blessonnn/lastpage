@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const SoundWave = () => {
+const PureWave = () => {
   return (
-    <div className="absolute inset-0 flex items-center justify-between px-0 pointer-events-none opacity-20 overflow-hidden">
-      {[...Array(60)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ height: "10%", opacity: 0.3 }}
-          animate={{ 
-            height: [`${Math.random() * 15 + 5}%`, `${Math.random() * 30 + 10}%`, `${Math.random() * 15 + 5}%`],
-            opacity: [0.2, 0.4, 0.2]
-          }}
-          transition={{ 
-            duration: Math.random() * 2 + 1, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-          className="w-[4px] sm:w-[8px] bg-accent rounded-full"
-        />
-      ))}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 overflow-hidden">
+      <svg width="100%" height="300" viewBox="0 0 1000 300" preserveAspectRatio="none" className="w-full h-full scale-y-50">
+        {[0, 1, 2].map((i) => (
+          <motion.path
+            key={i}
+            initial={{ d: "M0 150 Q 250 150 500 150 T 1000 150" }}
+            animate={{ 
+              d: [
+                `M0 150 Q 250 ${150 - (20 + i * 15)} 500 150 T 1000 150`,
+                `M0 150 Q 250 ${150 + (20 + i * 15)} 500 150 T 1000 150`,
+                `M0 150 Q 250 ${150 - (20 + i * 15)} 500 150 T 1000 150`
+              ]
+            }}
+            transition={{ 
+              duration: 4 + i * 1.5, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            stroke="black"
+            strokeWidth="3"
+            strokeLinecap="round"
+            fill="transparent"
+            style={{ opacity: 0.4 + (i * 0.2) }}
+          />
+        ))}
+      </svg>
     </div>
   );
 };
@@ -84,7 +93,7 @@ I love you, forever and always.`;
       className="min-h-screen bg-background paper-grain flex flex-col items-center justify-center p-4 sm:p-12 cursor-pointer relative overflow-hidden"
       onClick={handleContinue}
     >
-      <SoundWave />
+      <PureWave />
       
       <motion.div 
         layout
