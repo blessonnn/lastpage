@@ -3,21 +3,21 @@ import { motion } from 'framer-motion';
 
 const SoundWave = () => {
   return (
-    <div className="absolute inset-0 flex items-center justify-around px-4 pointer-events-none opacity-20 overflow-hidden">
+    <div className="absolute inset-0 flex items-center justify-between px-0 pointer-events-none opacity-20 overflow-hidden">
       {[...Array(60)].map((_, i) => (
         <motion.div
           key={i}
-          initial={{ height: "20%", opacity: 0.3 }}
+          initial={{ height: "10%", opacity: 0.3 }}
           animate={{ 
-            height: [`${Math.random() * 40 + 20}%`, `${Math.random() * 60 + 10}%`, `${Math.random() * 40 + 20}%`],
-            opacity: [0.3, 0.6, 0.3]
+            height: [`${Math.random() * 15 + 5}%`, `${Math.random() * 30 + 10}%`, `${Math.random() * 15 + 5}%`],
+            opacity: [0.2, 0.4, 0.2]
           }}
           transition={{ 
-            duration: Math.random() * 1.5 + 1, 
+            duration: Math.random() * 2 + 1, 
             repeat: Infinity, 
             ease: "easeInOut" 
           }}
-          className="w-1 sm:w-2 bg-accent rounded-full mx-0.5"
+          className="w-[4px] sm:w-[8px] bg-accent rounded-full"
         />
       ))}
     </div>
