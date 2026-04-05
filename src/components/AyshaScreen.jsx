@@ -99,7 +99,7 @@ const AyshaScreen = ({ onContinue }) => {
         <motion.div 
           animate={{ y: showPrompt ? 0 : 100, opacity: showPrompt ? 0.4 : 0 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-white flex items-center justify-center"
+          className="absolute bottom-12 text-[10px] font-sans tracking-[0.4em] uppercase text-center text-ink flex items-center justify-center"
         >
           Click anywhere to continue
         </motion.div>
