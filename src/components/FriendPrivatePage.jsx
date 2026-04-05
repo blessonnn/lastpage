@@ -27,7 +27,25 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
   const [successTitleDisplay, setSuccessTitleDisplay] = useState("");
   const [successTitleDone, setSuccessTitleDone] = useState(false);
 
+  const [activeEmojis, setActiveEmojis] = useState([]);
   const nameLower = session.name.trim().toLowerCase();
+  const isMegha = nameLower.includes('megha');
+  
+  const spawnEmoji = () => {
+    if (!isMegha) return;
+    const emojis = ['💖', '💗', '💓', '💞', '💕', '🌸', '🌷', '✨'];
+    const newEmoji = {
+      id: Date.now() + Math.random(),
+      char: emojis[Math.floor(Math.random() * emojis.length)],
+      x: (Math.random() - 0.5) * 40, // Random drift left/right
+      y: -20 - Math.random() * 40     // Random height
+    };
+    setActiveEmojis(prev => [...prev, newEmoji]);
+    setTimeout(() => {
+      setActiveEmojis(prev => prev.filter(e => e.id !== newEmoji.id));
+    }, 800);
+  };
+
   const isSpecialName = ['gopi', 'gopikrishna', 'akshara'].includes(nameLower);
   const isAswin = nameLower.includes('aswin') || nameLower.includes('ashwin');
   const isSreelakshmi = nameLower.includes('sreelakshmi') || nameLower.includes('sree');
@@ -259,7 +277,10 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
             <textarea
               required={!voice}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                if (isMegha && Math.random() < 0.4) spawnEmoji();
+              }}
               placeholder="" 
               className="w-full flex-grow bg-transparent border-none focus:ring-0 focus:outline-none text-2xl sm:text-6xl font-code text-transparent caret-accent resize-none leading-tight"
             />
@@ -276,7 +297,23 @@ const FriendPrivatePage = ({ session, onSignOut }) => {
                   {message.split('').map((char, i) => (
                     <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.05 }}>{char}</motion.span>
                   ))}
-                  <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.2em] h-[0.9em] bg-accent ml-2 align-middle shadow-[0_0_15px_rgba(var(--accent-rgb),0.3)]" />
+                  <span className="relative inline-block align-middle ml-2">
+                    <motion.span animate={{ opacity: [1, 0, 1] }} transition={{ duration: 0.8, repeat: Infinity, ease: "steps(2)" }} className="inline-block w-[0.2em] h-[0.9em] bg-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.3)]" />
+                    <AnimatePresence>
+                      {activeEmojis.map((e) => (
+                        <motion.span
+                          key={e.id}
+                          initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
+                          animate={{ opacity: 0, scale: 0.8, x: e.x, y: e.y }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
+                          className="absolute top-0 left-1/2 -translate-x-1/2 text-[25px] sm:text-[45px] pointer-events-none select-none"
+                        >
+                          {e.char}
+                        </motion.span>
+                      ))}
+                    </AnimatePresence>
+                  </span>
                 </>
               )}
             </div>
